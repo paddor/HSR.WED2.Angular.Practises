@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<title>Angular Scopes 1</title>
+        <script src="angular.min.js"></script>
+	</head>
+    <body>
+		<div data-ng-app data-ng-init="events = [{ name: 'Lunch', place: 'Rapperswil', date: '2015-10-10T10:00:00.000Z' }, { name: 'Dinner', place: 'Zürich', date: '2015-04-05T16:00:00.000Z' }, { name: 'Dinner', place: 'Rapperswil', date: '2015-12-08T17:00:00.000Z' }]; newEvent = {}">
+	        <h1>Events in Rapperswil</h1>
+			<ul>
+				<li data-ng-repeat="event in events" data-ng-show="event.place == 'Rapperswil'">{{event.name}}, {{event.place}}, {{event.date | date:"dd.MM.yy"}}</li>
+			</ul>
+			<form>
+				<input type="text" data-ng-model="newEvent.name" placeholder="name, e.g. Dinner" />
+				<input type="text" data-ng-model="newEvent.place" placeholder="place, e.g. Rapperswil" />
+				<input type="date" data-ng-model="newEvent.date" placeholder="date, e.g. 2015-04-05" />
+				<input type="reset" value="Clear fields" data-ng-click="newEvent = {}" />
+				<input type="submit" data-ng-click="events.push(newEvent); newEvent = {}" value="Add event" />
+			</form>
+			<div data-ng-show="newEvent.name || newEvent.place || newEvent.date">
+				<strong>Preview:</strong> <span>{{newEvent.name}}, {{newEvent.place}}, {{newEvent.date | date:"dd.MM.yy"}}</span>
+			</div>
+		</div>
+	<body>
+</html>

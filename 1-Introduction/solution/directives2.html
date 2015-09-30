@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<title>Angular Directives 2</title>
+        <script src="angular.min.js"></script>
+	</head>
+    <body>
+		<div data-ng-app data-ng-init="events = [{ name: 'Lunch', place: 'Rapperswil', date: '2015-10-10T10:00:00.000Z' }, { name: 'Dinner', place: 'Zürich', date: '2015-04-05T16:00:00.000Z' }, { name: 'Dinner', place: 'Rapperswil', date: '2015-12-08T17:00:00.000Z' }]">
+	        <h1>Events in Rapperswil</h1>
+			<ul>
+				<li data-ng-repeat="event in events" data-ng-show="event.place == 'Rapperswil'">{{event.name}}, {{event.place}}, {{event.date}}</li>
+			</ul>
+		</div>
+	<body>
+</html>

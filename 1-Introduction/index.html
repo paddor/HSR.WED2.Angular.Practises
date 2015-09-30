@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<title>WED2 Übung: Angular - 1 Einführung</title>
+
+		<link rel="stylesheet" type="text/css" href="../../resources/documentStyle.css">
+		<script src="../../resources/solutions.js"></script>
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+	</head>
+	<body>
+		<h1>
+			<a class="backlink" href="../index.html">⇦</a>
+			WED2 Übung: Angular - 1 Einführung
+			<button id="showSolutions">Lösungen anzeigen/ausblenden</button>
+		</h1>
+
+
+		<h2>Hinweise</h2>
+		<p></p>
+
+
+		<h2>Installation &amp; Expressions</h2>
+		<p>
+			Lesen Sie die folgenden Abschnitte von angularjsbook.com:
+			<ul>
+				<li><a href="http://www.angularjsbook.com/angular-basics/chapters/basics/#setup" target="_blank">Kapitel: Basics/Setup</a></li>
+				<li><a href="http://www.angularjsbook.com/angular-basics/chapters/basics/#expressions" target="_blank">Kapitel: Basics/Expressions</a></li>
+			</ul>
+		</p>
+		<p>
+			<ol>
+				<li>Laden Sie die neuste Version von Angular 1.x.x von der Angular Seite herunter
+				(z.B. <a href="https://code.angularjs.org/1.4.3/angular.min.js" target="_blank">https://code.angularjs.org/1.4.3/angular.min.js</a>) und erstellen Sie ein gültiges HTML-Dokument, in das Sie das Framework einbinden.</li>
+				<li>Definieren Sie einen Container (div), den Sie als Angular App deklarieren. Benutzen Sie die vom HTML-Standard vorgeschlagene Variante dazu.</li>
+				<li>Erstellen Sie eine Expression, die den String
+					<blockquote cite="https://de.wikipedia.org/wiki/AngularJS" title="Quelle: https://de.wikipedia.org/wiki/AngularJS">
+						AngularJS ist ein Open-Source-Framework des US-amerikanischen Unternehmens Google Inc.
+					</blockquote>
+					als titel ausgibt und dabei auch noch seine Länge angibt, z.B.:
+					<blockquote>
+						AngularJS ist ein Open-Source-Framework des US-amerikanischen Unternehmens Google Inc. (86 Zeichen)
+					</blockquote>
+					Deklarieren Sie dazu den String als Variable in einer Expression und verwenden Sie diese für beide Ausgaben.
+
+					<div class="solution">
+						<p>Siehe <a href="expressions.html" target="_blank">expressions.html</a>.<br />Beachten Sie die Verwendung von &quot;data-ng-app&quot; anstelle von &quot;ng-app&quot;. Nach dem HTML5-Standard müssen nicht-standardisierte Attribute mit &quot;data-&quot; beginnen.</p>
+					</div>
+				</li>
+				<li>
+					Beantworten Sie dazu folgende Fragen:
+					<ol>
+						<li>
+							Warum empfiehlt es sich, Angular lokal einzubinden statt über einen Content Delivery Service wie z.B. Google Code?
+
+							<div class="solution">
+								<p>
+									<ul>
+										<li>Sie können auch ohne Netzwerkverbindung arbeiten.</li>
+										<li>Sie sind nicht auf die Zuverlässigkeit des Google Servers angewiesen.</li>
+										<li>Sie liefern keine Nutzungsdaten an Google.</li>
+									</ul>
+								</p>
+							</div>
+						</li>
+						<li>
+							Eigentlich sollten JavaScript Dateien ganz unten im Dokument-Body eingebunden werden. Können Sie sich einen Grund vorstellen, warum wir Angular im Header einbinden?
+
+							<div class="solution">
+								<p>Wird Angular als letztes eingebunden, so passiert folgendes: Der Browser parst bereits während dem Laden des HTML Dokuments dessen Inhalt.
+									Als erstes werden die Angaben im Head eingelesen und referenzierte Scripts und Styles nachgeladen. Dann wird der Body geparst.
+									Der Browser parst und rendert den Inhalt der HTML Seite, bevor er durch Angular verarbeitet werden kann. Sobald Angular geladen wurde, rendert dieses die Expressions und Directives und ersetzt den Inhalt.
+									Dadurch wird ein unschöner &quot;Flash&quot; erzeugt, bei dem ganz kurz das eigentliche Template angezeigt wird.
+								</p>
+								<p>
+									Siehe auch <a href="http://stackoverflow.com/questions/15538125/angularjs-in-head-vs-body" target="_blank">http://stackoverflow.com/questions/15538125/angularjs-in-head-vs-body</a>
+								</p>
+							</div>
+						</li>
+					</ol>
+				</li>
+			</ol>
+		</p>
+
+
+		<h2>Directives</h2>
+		<p>
+			Lesen Sie die folgenden Abschnitte von angularjsbook.com:
+			<ul>
+				<li><a href="http://www.angularjsbook.com/angular-basics/chapters/basics/#directives" target="_blank">Kapitel: Basics/Directives</a></li>
+			</ul>
+		</p>
+		<p>
+			<ol>
+				<li>
+					Bauen Sie das Beispiel von 3 um, indem Sie anstelle der Expression eine Directive verwenden, um das gleiche auszugeben. Definieren Sie den Text über die Direktive &quot;data-ng-init&quot; auf dem App-Container und verwenden Sie diese Variable zur Ausgabe.
+
+					<div class="solution">
+						<p>Siehe <a href="solution/directives1.html" target="_blank">solution/directives1.html</a>.</p>
+					</div>
+				</li>
+				<li>
+					Definieren Sie auf dem App-Container eine Liste von Events, die folgende Anlässe enthält:
+					<ul>
+						<li>
+							<dl>
+								<dt>Name</dt><dd>Lunch</dd>
+								<dt>Place</dt><dd>Rapperswil</dd>
+								<dt>Date</dt><dd>2015-10-10T10:00:00.000Z<dd>
+							</dl>
+						</li>
+						<li>
+							<dl>
+								<dt>Name</dt><dd>Dinner</dd>
+								<dt>Place</dt><dd>Zürich</dd>
+								<dt>Date</dt><dd>2015-04-05T16:00:00.000Z<dd>
+							</dl>
+						</li>
+						<li>
+							<dl>
+								<dt>Name</dt><dd>Dinner</dd>
+								<dt>Place</dt><dd>Rapperswil</dd>
+								<dt>Date</dt><dd>2015-12-08T17:00:00.000Z<dd>
+							</dl>
+						</li>
+					</ul>
+					Schauen Sie sich die &quot;repeat&quot;-Direktive von Angular an und geben Sie die Anlässe mit Name, Ort und Datum als Liste aus. Blenden Sie über die &quot;show&quot;- oder &quot;hide&quot; -Direktive nur Anlässe ein, die in Rapperswil stattfinden.
+
+					<div class="solution">
+						<p>Siehe <a href="solution/directives2.html" target="_blank">solution/directives2.html</a>.</p>
+					</div>
+				</li>
+			</ol>
+		</p>
+
+
+		<h2>Filter</h2>
+		<p>
+			Schauen Sie sich die Angular Dokumentation zu Filter an:
+			<ul>
+				<li><a href="https://docs.angularjs.org/api/ng/filter" target="_blank">Angular Filter</a></li>
+			</ul>
+		</p>
+		<p>
+			<ul>
+				<li>
+					Verbessern Sie das Beispiel der vorherigen Aufgabe. Benutzen Sie Filter, um das Datum wie folgendes Beispiel zu formatieren: &quot;15.08.15&quot;.
+
+					<div class="solution">
+						<p>Siehe <a href="solution/filter1.html" target="_blank">solution/filter1.html</a>.</p>
+					</div>
+				</li>
+			</ul>
+		</p>
+
+		<h2>Scopes</h2>
+		<p>
+			Lesen Sie die folgenden Abschnitte von angularjsbook.com:
+			<ul>
+				<li><a href="http://www.angularjsbook.com/angular-basics/chapters/basics/#scopes" target="_blank">Kapitel: Basics/Scopes</a></li>
+			</ul>
+		</p>
+		<p>
+			<ul>
+				<li>
+					Sie haben bereits bei den letzten Aufgaben Scope Variablen verwendet: nämlich die Variable &quot;events&quot;. Alle im Scope definierten Variablen stehen im Template zur Verfügung und können auch modifiziert werden.</li>
+				<li>Erweitern Sie das Beispiel mit dem Events um die Möglichkeit, neue Events hinzuzufügen.
+
+					Benutzen Sie die Vorlage <a href="template/scopes1.html" target="_blank">template/scopes1.html</a>
+
+					Gehen Sie dabei wie folgt vor:
+					<ol>
+						<li>Ergänzen Sie den Scope um ein &quot;leeres&quot;-Event-Objekt.</li>
+						<li>Binden Sie die Eigenschaften dieses Objektes an die Eingabefelder.</li>
+						<li>Definieren Sie für den Reset-Button eine Aktion, sodass beim Klicken das Event-Objekt zurückgesetzt wird.</li>
+						<li>Definieren Sie für den Submit-Button eine Aktion, sodass beim Klicken der neue Event der Liste der Events hinzugefügt wird und das Event-Objekt zurückgesetzt wird.</li>
+						<li>Passen Sie den Preview-Container so an, das er nur angezeigt wird, wenn eines der Felder einen Wert enthält und geben Sie im enthaltenen Textblock (span) eine Vorschau des Eventes aus.
+					</ol>
+					<span class="tipp" title="&bull; Definieren Sie das Event-Objekt in der &quot;init&quot;-Direktive, die bereits die Eventliste beinhaltet.
+&bull; Benutzen Sie die &quot;model&quot;-Direktive zum Binden der Eigenschaften.
+&bull; Sie können das neue Objekt mittels events.push() der Liste hinzufügen.
+&bull; Zum Zurücksetzen weisen Sie dem Objekt einfach ein neues mit leeren Eigenschaften zu.
+&bull; Verwenden Sie die &quot;click&quot;-Direktive dür die Klick-Aktionen.">Tipp</span> (Versuchen Sie es zuerst ohne)
+
+					<div class="solution">
+						<p>Siehe <a href="solution/scopes1.html" target="_blank">solution/scopes1.html</a>.</p>
+					</div>
+				</li>
+			</ul>
+		</p>
+  </body>
+</html>
