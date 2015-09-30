@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<title>WED2 Übung: Angular - 3 Umfangreiche Applikation</title>
+
+		<link rel="stylesheet" type="text/css" href="../../resources/documentStyle.css">
+		<script src="../../resources/solutions.js"></script>
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+	</head>
+	<body>
+		<h1>
+			<a class="backlink" href="../index.html">⇦</a>
+			WED2 Übung: Angular - 3 Umfangreiche Applikation
+			<button id="showSolutions">Lösungen anzeigen/ausblenden</button>
+		</h1>
+
+
+		<h2>Hinweise</h2>
+		<p></p>
+
+
+		<h2>Kontext</h2>
+		<p>
+			Diese Übung setzt baut auf der Event Applikation der letzten Übung auf.
+		</p>
+
+
+		<h2>Services</h2>
+		<p>Bisher haben wir lediglich mit Controller-lokalen Daten gearbeitet. Sollen Daten oder Funktionen über die ganze Applikation hinweg verfügbar sein und sind ein an sich gekapselter Funtionsteil, so wird dies in Angular mit Services gelöst.</p>
+		<p>Lesen Sie das Kapitel zu Services auf angularjsbook.com:
+		<ul>
+			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/services/" target="_blank">angularjsbook.com, Kapitel: Services</a></li>
+		</ul>
+
+		<ul>
+			<li>Definieren Sie einen &quot;Service&quot; namens &quot;StorageService { events: [] }&quot;, um die Liste mit den Events applikationsweit zur Verfügung zu stellen.
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->// service/storageService.js
+define(['app/model/event'], function(Event) {
+	'use strict';
+
+	var StorageService = function() {
+		this.events = [
+			// ...
+		];
+	};
+
+	return StorageService;
+});<!--
+					--></code></pre>
+				</div>
+			</li>
+			<li>
+				 Deklarieren Sie diesen als Angular Service und injection Sie ihn in den EventListController.
+
+				 <div class="solution">
+					 <pre class="prettyprint"><code class="language-javascript"><!--
+-->// lafete.js
+define(['frameworks/angular', 'app/controllers/eventListController', 'app/services/storageService'],
+	 function (Angular, EventListController, StorageService) {
+	 // ...
+	 /* services */
+	 Lafete.service('StorageService', StorageService);
+
+	 /* controllers */
+	 EventListController.$inject = ['$scope', 'StorageService'];
+	 Lafete.controller('EventListController', EventListController);
+	 // ...
+
+
+//eventController.js
+var EventListController = function($scope, storageService) {
+	 this.scope = $scope;
+	 this.scope.events = storageService.events;
+	 // ...<!--
+					 --></code></pre>
+					 <p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/StorageService" target="_blank">Tag: Event-Model</a></p>
+				 </div>
+			</li>
+				Wie sie feststellen werden, failen nun die Tests. Schauen Sie sich den verlinkten Artikel von Sitepoint an und korrigieren Sie den EventListControllerTest, sodass er wieder funktioniert. Für die Injection von Componenten benötigen Sie noch angular-mock.js. Laden Sie die zu ihrer Angular Version passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a></li>). und legen Sie sie unter &quot;tests/libraries/angular&quot; ab.
+				Angular-mocks binden Sie wie folgt ein:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->require.config({
+	baseUrl: './',
+	paths: {
+		// ...
+		'libraries/angularMocks': 'libraries/angular/angularMocks',
+		// ...
+	},
+	shim: {
+		// ...
+		'libraries/angularMocks': {
+			deps: ['frameworks/angular'],
+			exports: 'angular.mock'
+		},
+		// ...
+	}
+});<!--
+				--></code></pre>
+				Wenn Sie nun AngularMock mittels Require laden, so können Sie AngularMocks.inject verwenden, um Dependencies zu injecten. Den StorageService müssen Sie von Hand instanziieren, da dieser nur in der App bekannt ist, nicht aber in den Tests.
+			</li>
+
+			<div class="solution">
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->define(['app/controllers/eventListController', 'frameworks/angular', 'libraries/angularMocks', 'app/services/storageService'],
+	function (EventListController, Angular, AngularMocks, StorageService) {
+	'use strict';
+
+	var eventListController;
+
+	beforeEach(AngularMocks.inject(function ($rootScope) {
+		var scope = $rootScope.$new();
+		var storageService = new StorageService();
+		eventListController = new EventListController(scope, storageService);
+	}));
+
+	describe('EventListController test suite', function() {
+		it('Expects 3 events on scope', function() {
+			expect(3).toBe(eventListController.scope.events.length);
+		});
+	});
+});<!--
+				--></code></pre>
+			</div>
+		</ul>
+
+
+		<h2>Routing &amp; Views</h2>
+		<p>Bisher besitzt unsere Applikation nur eine View. Um mehrere Views ansteuern zu können, besitzt Angular eine &quot;Routing-Komponente&quot;.</p>
+		<p>Lesen Sie das Kapitel zu Routing auf angularjsbook.com:
+		<ul>
+			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/routing/" target="_blank">angularjsbook.com, Kapitel: Routing</a></li>
+			<li><a href="http://www.sitepoint.com/unit-testing-angularjs-services-controllers-providers/" target="_blank">Sitepoint: Angular controllers unit testing</a></li>
+		</ul>
+
+		<h3>Angular-Route Installation</h3>
+		<ul>
+			<li>Laden Sie das Angular Module &quot;Angular-route&quot; in der passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a>) und legen Sie es im Ordner Libraries ab.</li>
+			<li>Fügen Sie Angular-Route in der Pfad Konfiguration von Require hinzu und ergänzen Sie einen Shim Eintrag. Sie müssen Angular-Route nicht exportieren, sondern lediglich eine Abhängigkeit zum Angular definieren:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// main.js
+'libraries/angularRoute': {
+	deps: ['frameworks/angular']
+}<!--
+				--></code></pre>
+			</li>
+			<li>Ergänzen Sie Angular-Route als Dependency im Lafete Module und registrieren Sie es wie folgt beim Angular Module:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->var Lafete = Angular.module('lafete',['ngRoute']);<!--
+			--></code></pre>
+			</li>
+			<li>Damit Angular-Route korrekt zusammen mit Angular funktioniert, müssen Sie das Lafete Module explizit laden und das Attribut <code>data-ng-app=&quot;lafete&quot;</code> im Template entfernen:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// main.js
+Angular.bootstrap(document, [Lafete.name]);<!--
+				--></code></pre>
+		</ul>
+
+		<h3>Views</h3>
+		<ul>
+			<li>Lagern Sie den Inhalt des App-Containers nach &quot;source/views/list.html&quot; aus.
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-html"><!--
+-->&lt;div ng-view&gt;&lt;/div&gt;<!--
+					--></code></pre>
+				</div>
+			</li>
+			<li>Konfigurieren Sie mittels &quot;Routeprovider&quot; die Route &quot;/list&quot; und leiten Sie alle Andern Routen zu dieser um.
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->Lafete.config(function($routeProvider) {
+	$routeProvider.when('/list', {
+		controller: 'EventListController',
+		templateUrl: '/views/list.html'
+	})
+	.otherwise({
+		redirectTo: '/list'
+	});
+})<!--
+					--></code></pre>
+				</div>
+			</li>
+		</ul>
+		<p><strong>Einige Browser unterbinden Ajax Zugriffe auf lokale Dateien.</strong> Aus diesem Grund werden Sie eine Netzwerkfehlermeldung erhalten. Starten Sie die App in diesem Fall nicht direkt vom Dateisystem, sondern über einen HTTP-Server. Webstorm kann dies. <br />
+		Ansonsten können Sie auch Node dazu verwenden: <br />
+		Installieren Sie Node und laden sie das Node Modul &quot;http-server&quot; <code>npm install http-server</code>. Wechseln Sie nun ins Verzeichnis &quot;source&quot; und starten Sie den Server mittels Command <code>http-server</code>. Jetzt können Sie über <a href="localhost:8080" target="_blank">localhost:8080</a> bzw. den Port, den Node ihnen auf der Commandline anzeigt, die App im Browser aufrufen.</p>
+
+
+		<h2>Detailansicht</h2>
+		<ul>
+			<li><a href="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/RegExp" target="_blank">MDN: RegExp</a></li>
+		</ul>
+		<p>Für die Detailansicht benötigen wir noch einen eindeutigen Identifier für Events. Über diesen sollen Events auch angesprochen werden können.</p>
+		<ul>
+			<li>Erstellen Sie die Klasse &quot;services/uuidService&quot;:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->define([], function() {
+	'use strict';
+
+	var UUIDService = {};
+	// see https://en.wikipedia.org/wiki/Universally_unique_identifier
+
+	// Version 4
+	UUIDService.getRandomUuid = function() {
+		// source: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+		var uuidScheme = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+		var timestamp = new Date().getTime();
+
+		return uuidScheme.replace(/[xy]/g, function(character) {
+			var randomNumber = (timestamp + Math.random()*16)%16 | 0;
+			timestamp = Math.floor(timestamp/16);
+			return (character == 'x' ? randomNumber : (randomNumber&0x3|0x8)).toString(16);
+		});
+	}
+
+	return UUIDService;
+});<!--
+				--></code></pre>
+			</li>
+			<li>Erstellen Sie einen Test, der überprüft, ob neu erstellte Events eine UUID als &quot;id&quot; besitzen. Sie können dazu folgenden regulären Ausdruck verwenden: <pre class="prettyprint"><code class="language-javascript">new RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}')</code></pre><strong>Hinweis</strong>: Schauen Sie sich die Funktion <code>toMatch()</code> von Jasmine an.
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->it('Expects event id to be UUID', function() {
+	var uuidRegex = new RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
+	expect(event.id).toMatch(uuidRegex);
+});<!--
+				--></code></pre>
+				</div>
+			</li>
+			<li>Ergänzen Sie den Event um ein Property &quot;id&quot;. Nutzen Sie dazu den erstellten UUIDService.
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->define(['app/services/uuidService'], function(UUIDService) {
+	'use strict';
+
+	var Event = function(name, description, targetGroup, eventGift, location, preparation, event, maximalAmoutOfGuests) {
+		this.id = UUIDService.getRandomUuid();
+		// ...<!--
+					--></code></pre>
+				</div>
+			</li>
+			<li>Die Eventliste im StorageService soll wie folgt umgebaut werden. Erstellen Sie dazu zuerst die Testsuite &quot;storageServiceTest&quot;:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// tests/classes/services/storageServiceTest.js
+define(['app/model/event', 'app/services/storageService'], function (Event, StorageService) {
+	'use strict';
+
+	describe('EventStorageService test suite', function() {
+		var event, storageService;
+
+		// setup
+		beforeEach(function() {
+			storageService = new StorageService();
+			event = new Event(
+				// COPY from eventTest.js
+			);
+ 		});
+
+		it('Expects get() will return event or null on invalid identifier', function() {
+			// TODO
+		});
+
+		it('Expects return of all() is Array', function() {
+			// TODO
+		});
+
+		it('Expects add() will add element only once and status will be correct', function() {
+			// TODO
+		});
+	});
+});
+
+
+// classes/services/storageService.js
+// ...
+this.events = new (function() {
+	var eventList = {};
+	/**
+	 * Find event by identifier
+	 *
+	 * @param string identifier
+	 * @return Event or null
+	 */
+	this.get = function(identifier) {
+		// TODO
+	};
+	/**
+	 * Get all events
+	 *
+	 * @return Event[]
+	 */
+	this.all = function() {
+		// TODO. Use JavaScript map function instead of custom loop!
+	};
+	/**
+	 * Add event if not already in list
+	 * @param Event event
+	 * @return boolean if added successfull
+	 */
+	this.add = function(event) {
+		// TODO
+	};
+})();<!--
+				--></code></pre>
+				Und passen Sie den Zugriff auf die Events im EventListController an.
+			</li>
+			<li>Wie Ihnen bestimmt aufgefallen ist, verletzen unsere Tests mittlerweile das &quot;DRY&quot; (Don't repeat yourself)-Prinzip.
+			Wir initialisieren den gleichen Event mehrmals in verschiedenen Testsuiten. Lagern Sie die Erstellung dieses Test-Events in eine &quot;EventFactory&quot; aus.
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->// tests/classes/factories/eventFactory.js
+define(['app/model/event'], function (Event) {
+	'use strict';
+
+	var EventFactory = {
+		createEvent: function() {
+			return new Event(
+				// COPIED from eventTest.js
+			);
+		}
+	};
+
+	return EventFactory;
+});
+
+// tests/classes/model/eventTest.js, tests/classes/services/storageServiceTest.js
+define(['tests/factories/eventFactory', ... ],
+	function(EventFactory, ...) {
+	// ...
+	beforeEach(function() {
+		event = EventFactory.createEvent();
+	// ...
+<!--
+					--></code></pre>
+					<p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/EventFactory" target="_blank">Tag: EventFactory</a></p>
+				</div>
+			</li>
+			<li>Erstellen Sie eine Detailansicht für Events.
+				Erstellen Sie dazu einen Ordner &quot;event&quot; in controllers.
+				Verschieben Sie auch den EventListController dorthin und passen Sie die Angular-Konfiguration an.
+
+				<div class="solution">
+
+				</div>
+			</li>
+			<li>Verlinken Sie Die Events in der Liste.</li>
+			<li>Definieren Sie eine Route <code>/events/:eventId</code>.
+				Ändern Sie die Route der bestehenden Listenansicht nach <code>/events</code>.
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->// classes/controllers/event/detailController.js
+define([], function() {
+	'use strict';
+
+	var EventDetailController = function($scope, $routeParams, storageService) {
+		this.scope = $scope;
+		this.scope.event = storageService.events.get($routeParams.eventId);
+	}
+
+	return EventDetailController;
+});
+
+// classes/modules/lafete.js
+// ...
+EventDetailController.$inject = ['$scope', '$routeParams', 'StorageService'];
+Lafete.controller('EventDetailController', EventDetailController);
+// ...
+.when('/events/:eventId', {
+	controller: 'EventDetailController',
+	templateUrl: '/views/detail.html'
+})<!--
+					--></code></pre>
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->&lt;!-- views/list.html --&gt;
+&lt;!-- ... --&gt;
+&lt; data-ng-href="#/events/{{event.id}}"&gt;&lt;strong&gt;{{event.name}}&lt;/strong&gt;&lt;/a&gt;
+&lt;!-- ... --&gt;
+
+&lt;!-- views/detail.html --&gt;
+&lt;h2&gt;{{event.name}}&lt;h2&gt;
+&lt;p&gt;{{event.description}}&lt;/p&gt;
+&lt;p data-ng-if="event.maximalAmoutOfGuests"&gt;
+&lt;strong&gt;Maximal amount of guests:&lt;/strong&gt;
+{{event.maximalAmoutOfGuests}}
+&lt;/p&gt;
+
+&lt;h3 data-ng-if="event.targetGroup"&gt;Target group&lt;/h3&gt;
+&lt;p data-ng-if="event.targetGroup"&gt;{{event.targetGroup}}&lt;/p&gt;
+
+&lt;h3 data-ng-if="event.eventGift"&gt;Event gift&lt;/h3&gt;
+&lt;p data-ng-if="event.eventGift"&gt;{{event.eventGift}}&lt;/p&gt;
+
+&lt;h3&gt;Location&lt;/h2&gt;
+&lt;p&gt;
+&lt;strong&gt;{{event.location.name}}&lt;/strong&gt;&lt;br /&gt;
+{{event.location.street}}&lt;br /&gt;
+{{event.location.plz}} {{event.location.city}}
+&lt;/p&gt;
+
+&lt;h3&gt;Date &amp; time&lt;/h3&gt;
+&lt;p&gt;{{event.begin | date:"dd.MM.yy HH:mm"}} - {{event.end | date:"dd.MM.yy HH:mm"}}&lt;/p&gt;
+
+&lt;h3 data-ng-if="event.preparation"&gt;Preparation&lt;/h3&gt;
+&lt;p data-ng-if="event.preparation"&gt;{{event.preparationBegin | date:"dd.MM.yy HH:mm"}} - {{event.preparationEnd | date:"dd.MM.yy HH:mm"}}&lt;/p&gt;<!--
+					--></code></pre>
+					<p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/Detailview" target="_blank">Tag: EventFactory</a></p>
+				</div>
+			</li>
+		</ul>
+
+
+		<h2>Refactoring</h2>
+		<p>Mittlerweile haben sich in unserer Applikation einige Unschönheiten eingeschlichen.
+			Führen Sie folgende Refactorings durch.
+			Führen Sie nach jedem Refactoring die Applikation und die Tests aus,
+			um zu gewährleisten, das sie beim Refactorn keine neuen Fehler eingebaut haben.
+		</p>
+		<ul>
+			<li>
+				Verschieben Sie die Templates &quot;detail.html&quot; und &quot;list.html&quot;
+				in ein Unterverzeichnis &quot;event&quot;
+				Passen Sie die Modulkonfiguration entsprechend an.
+			</li>
+			<li>
+				Die für Events erzwungene UUID beim Erstellen einer Instanz schränkt die Testbarkeit ein,
+				da zu Testzwecken keine vorgegebene UUID gesetzt werden kann.
+				Dies führt im aktuellen Entwicklungsbetrieb auch dazu,
+				das Sie auf der Detailansicht nicht neu Laden können,
+				weil jedes Mal neue UUID's generiert werden.
+				Ergänzen Sie den Konstruktor des Event um einen weiteren Parameter und
+				lassen Sie die UUID nur automatisch setzen,
+				wenn dieser leer ist. Schreiben Sie zuerst einen Test dafür und implementieren Sie anschliessend ihre Lösung.
+				Passen Sie auch den StorageService an,
+				sodass die Events mit vordefinierten UUID's initialisiert werden anstelle der ZUfälligen.
+
+				<div class="solution">
+
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->// classes/model/event.js
+// ...
+var Event = function(name, description, targetGroup, eventGift, location, preparation, event, maximalAmoutOfGuests, id) {
+	this.id = id || UUIDService.getRandomUuid();
+// ...<!--
+					--></code></pre>
+				</div>
+			</li>
+		</ul>
+
+  </body>
+</html>
