@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<title>WED2 Übung: Angular - 2 Einfache Applikation</title>
+
+		<link rel="stylesheet" type="text/css" href="../../resources/documentStyle.css">
+		<script src="../../resources/solutions.js"></script>
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+	</head>
+	<body>
+		<h1>
+			<a class="backlink" href="../index.html">⇦</a>
+			WED2 Übung: Angular - 2 Einfache Applikation
+			<button id="showSolutions">Lösungen anzeigen/ausblenden</button>
+		</h1>
+
+
+		<h2>Hinweise</h2>
+		<p></p>
+
+
+		<h2>Kontext</h2>
+		<p>
+			Wir werden in der folgenden Übung ein eine Applikation zur Verwaltung von Anlässen und Teilnehmenden aufbauen.
+		</p>
+
+
+		<h2>Architektur</h2>
+		<p>
+			Sie haben bisher vor Allem vom &quot;Model-View-Controller&quot;-Pattern gehört. &quot;MVC&quot; ist Teil der Konzeptgruppe &quot;MV*&quot; oder &quot;MVW&quot; (Model-View-Whatever).
+		</p>
+		<p>
+			Angular bezeichnet sich als &quot;MVC&quot;-Framework. Genau genommen sind die Controllers jedoch Viewmodels, da sie auch Funktionen, Kommandos und View-spezifische Properties beinhalten.
+		</p>
+		<p>
+			Lesen Sie die folgenden Artikel von angularjsbook.com sowie den Artikel von .Net-Tricks:
+		</p>
+		<ul>
+			<li><a href="http://www.dotnet-tricks.com/Tutorial/designpatterns/2FMM060314-Understanding-MVC,-MVP-and-MVVM-Design-Patterns.html" target="_blank">dotnet-tricks.com/Tutorial/designpatterns/2FMM060314-Understanding-MVC,-MVP-and-MVVM-Design-Patterns</a></li>
+		</ul>
+		<ul>
+			<li>Erstellen Sie einen Ordner für die Webapp und legen Sie folgende Struktur an:
+				<pre><!--
+-->App
+ |-- configuration
+ '-- source
+   +-- classes
+   +-- frameworks
+   | '-- angular
+   |   '- angular.min.js
+   +-- libraries
+   +-- views
+   '-- index.html<!--
+				--></pre>
+			</li>
+			<li>Erstellen Sie index.html, binden Sie angular ein und definieren Sie einen HTML-Container für die Angular-App.</li>
+			<li>Beantworten Sie folgende Fragen zum Thema Architektur:
+				<ol>
+					<li>Worin besteht der Hauptunterschied zwischen &quot;MVC&quot; und &quot;MVVM&quot;?
+
+						<div class="solution">
+							<ul>
+								<li>Die View greift nicht selbstständig auf das Model zu, sondern erhält nur Zugriff auf vom Viewmodel zur Verfügung gestellte Objekte.</li>
+								<li>Das View Model beinhaltet auch Funktionen und Commands für Viewkomponenten.</li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						Welche Nachteile müssen Sie in Kauf nehmen, wenn sie ihren Code strukturieren und nicht ein ein einzelnes Script packen?
+
+						<div class="solution">
+							<ul>
+								<li>Sie müssen jedes einzelne Skript einbinden. Dies ist fehleranfällig und wartungsintensiv.</li>
+								<li>Jedes einzelne Skript, das geladen wird, führt zu einem Server-Roundtrip und somit zu einer Verzögerung.</li>
+								<li>Binden Sie die Skripte in der falschen Reihenfolge ein, so gibt es Probleme mit Abhängigkeiten.</li>
+							</ul>
+							<p>
+							Aufgrund all dieser Nachteile werden Skripte minified (zusammenkompiliert) oder über einen Module Loader wie RequireJS geladen.
+							</p>
+						</div>
+					</li>
+				</ol>
+			</li>
+		</ul>
+
+
+		<h2>Dependency Management</h2>
+		<p>
+			Bei Java übernehmen Compiler und Virtualmachine die Aufgabe selbst, die richtigen Dateien zu laden. Bei JavaScript ist dies nicht der Fall. Es gibt verschiedene Wege, JavaScript Code zu strukturieren, organisieren und Abhänigkeiten zu verwalten. Ecmascript 6 bringt Module zur Strukturierung von Code mit. Leider wird dieser Teil von Ecmascript 6 noch sehr schlecht unterstützt von den aktuellen Browsern. Bis Ecmascript 5 gibt es verschiedene Libraries, die diese Aufgabe übernehmen. Eine weitverbreitete Lösung ist RequireJS.
+		</p>
+		<p>
+		Lesen Sie die folgenden Einführung zu RequireJS von Sitepoint:
+		</p>
+		<ul>
+			<li><a href="http://www.sitepoint.com/understanding-requirejs-for-effective-javascript-module-loading/" target="_blank">sitepoint.com/understanding-requirejs-for-effective-javascript-module-loading</a></li>
+		</ul>
+		<ul>
+			<li>Laden Sie RequireJS herunter (<a href="http://requirejs.org/docs/download.html#requirejs">RequireJS Downloads</a>) und kopieren Sie es ins Verzeichnis &quot;libraries/requirejs&quot; als &quot;require-js.min.js&quot;</li>
+			<li>Als erstes müssen wir nun RequireJS einbinden (zu unterst im Body):
+				<pre class="prettyprint"><code class="language-html"><!--
+				-->&lt;script src="./libraries/require/require-js.min.js" data-main="./classes/main.js"&gt;&lt;/script&gt;<!--
+				--></code></pre>
+				Den Script tag, mit dem Sie Angular von Hand eingebunden haben, können Sie nun entfernen.
+			</li>
+			<li>Als nächstes müssen wir RequireJS konfigurieren und eine Angular App starten. Legen Sie dazu &quot;classes/main.js&quot; an:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->require.config({
+	// base url relative to the index.html
+	baseUrl: './',
+	paths: {
+		'angular': 'frameworks/angular/angular.min'
+	},
+	// angular does not support async loading out of the box -> use the shim loader
+	shim: {
+		'angular': {
+			exports: 'angular'
+		}
+	}
+});
+
+define(['angular'], function (angular) {
+	var app = angular.module("lafete");
+	return angular.bootstrap(app);
+});<!--
+				--></code></pre>
+				Durch &quot;define()&quot; definieren wir eine Abhängigkeit zu Angular. Dies verantlasst RequireJS, das Angular-Skript zu laden (durch einfügen eines entsprechenden Script-Tags im Header) und zu warten mit der Ausführung der Funktion, bis Angular komplett geladen wurde. RequireJS evaluiert nun den Inhalt des Angular-Skriptes und übergibt den Code als Parameter &quot;angular&quot; an die Funktion. Nun können wir mit &quot;bootstrap()&quot; eine leere App starten.
+			</li>
+
+			<div class="solution">
+				<p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/RequireJS-configuration" target="_blank">Tag: RequireJS-configuration</a></p>
+			</div>
+		</ul>
+
+
+		<h2>Angular Module</h2>
+		<p>Angular Module sind apps und dienen der Modularisierung einer grossen Applikation. Für unsere Appliaktion reicht ein Modul aus:</p>
+		<ul>
+			<li>Legen Sie im Ordner &quot;classes&quot; einen ordner &quot;modules&quot; an.</li>
+			<li>Erstellen Sie die Datei &quot;lafete.js&quot; in diesem Ordner.</li>
+			<li>Verschieben Sie die Definition unseres Modules &quot;lafete&quot; vom main-Skript in die neu erstellte Datei:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// declare dependency to angular (similar to import in java)
+define(['angular'], function (Angular) {
+
+	// Create new empty app/module named 'lafete'
+	var Lafete = Angular.module('lafete', []);
+
+	// export module to use it in other classes
+	return Lafete;
+});<!--
+				--></code></pre>
+			</li>
+			<li>Laden Sie im main-Skript das Modul, damit sie es wie bisher bootstrappen können. Dazu müssen wir zuerst unsere Klassen als Pfadvariable RequireJS deklarieren (main.js):
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->//...
+paths: {
+	'angular': 'frameworks/angular/angular.min',
+	'app': 'classes'
+},
+//...<!--
+				--></code></pre>
+			Jetzt brauchen Sie nur noch das Module als Abhängigkeit zu definieren um es verwenden zu können (main.js):
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// We need to
+define(['angular', 'app/modules/lafete'], function (Angular, Lafete) {
+	return Angular.bootstrap(Lafete);
+});<!--
+				--></code></pre>
+			</li>
+		</ul>
+		<p>RequireJS ermöglicht es uns, eine sauber strukturierte Code Base zu erstellen und entsprechend Abhängigkeiten zu definieren. Aber was ist mit Angular? Dies steht im Moment auf einer Ebene mit &quot;app&quot; in unserer Struktur. Lassen Sie uns dies beheben:</p>
+		<ul>
+			<li>Bennen Sie den virtuellen Pfad für Angular von &quot;angular&quot; nach &quot;frameworks/angular&quot; um.
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->//...
+paths: {
+	//   virtual path          real path on file system
+	//       v                             v
+	'frameworks/angular': 'frameworks/angular/angular.min',
+	'app': 'classes'
+},
+//...
+shim: {
+	'frameworks/angular': {
+		exports: 'angular'
+	}
+}<!--
+				--></code></pre>
+			</li>
+			<li>Passen Sie im main-Skript sowie im Modul den import Pfad für Angular an:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->define(['frameworks/angular', ...], function (Angular, ...) {
+	// ...
+});<!--
+				--></code></pre>
+			</li>
+		</ul>
+
+
+		<h2>Basic Controller</h2>
+		<p>Angular Controller verwalten den Scope einer View. Lesen Sie folgende Abschnitte von angularjsbook.com:</p>
+		<ul>
+			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/controllers/" target="_blank">angularjsbook.com, Kapitel: Controllers</a></li>
+			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/dependency-injection/" target="_blank">angularjsbook.com, Kapitel: Dependency Injection</a></li>
+			<li><a href="https://docs.angularjs.org/guide/controller" target="_blank">docs.angularjs.org/guide/controller</a></li>
+		</ul>
+		<ul>
+			<li>Erstellen Sie im Verzeichnis &quot;classes/controllers&quot; einen &quot;EventListController&quot;. Setzen Sie auf dem Scope ein Property &quot;events&quot; und definieren Sie einige Defaultevents, analog wie wir es in der vorhergehenden Übung direkt im Template gemacht haben.
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->[
+	{ name: 'Lunch', place: 'Rapperswil', date: new Date('2015-10-10T10:00:00.000Z') },
+	{ name: 'Dinner', place: 'Zürich', date: new Date('2015-04-05T16:00:00.000Z') },
+	{ name: 'Dinner', place: 'Rapperswil', date: new Date('2015-12-08T17:00:00.000Z') }
+]<!--
+				--></code></pre>
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->define([], function() {
+	'use strict';
+
+	var EventListController = function($scope) {
+		this.scope = $scope;
+		this.scope.events = [
+			{ name: 'Lunch', place: 'Rapperswil', date: new Date('2015-10-10T10:00:00.000Z') },
+			{ name: 'Dinner', place: 'Zürich', date: new Date('2015-04-05T16:00:00.000Z') },
+			{ name: 'Dinner', place: 'Rapperswil', date: new Date('2015-12-08T17:00:00.000Z') }
+		];
+	}
+
+	return EventListController;
+});<!--
+					--></code></pre>
+				</div>
+			</li>
+			<li>
+				Fügen Sie den Controller in der Modulkonfiguration der Lafete-App hinzu. Verwenden Sie dazu nicht die im angularjsbook vorgeschlagene Variante, sondern benutzen Sie die &quot;controller&quot;-Funktion (Siehe verlinkte AngularJS Dokumentation zu Controller) und übergeben Sie dieser den von RequireJS geladenen Controller.
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->define(['frameworks/angular', 'app/controllers/eventListController'],
+	function (Angular, EventListController) {
+	'use strict';
+
+	var Lafete = Angular.module('lafete', []);
+	Lafete.controller('EventListController', EventListController);
+	EventListController.$inject = ['$scope'];
+
+	return Lafete;
+});<!--
+					--></code></pre>
+				</div>
+			</li>
+			<li>Angular modularisiert Applikationen mit Apps. Entsprechend gehören auch Controllers immer zu der App, bei der sie registriert werden. Damit Angular Controllers und App matchen kann, müssen Sie im Template den Namen der App definieren:
+				<pre class="prettyprint"><code class="language-html"><!--
+-->&lt;div data-ng-app="lafete"&gt;<!--
+				--></code></pre>
+			</li>
+			<li>
+				Als letztes müssen Sie einem Bereich im Template einen Controller zuweisen. Schauen Sie in der verlinkten Angular Dokumentation, wie dies gemacht wird. Verwenden Sie auch hier wieder die HTML5-Standard-konforme Variante.
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-html"><!--
+--><ul data-ng-controller="EventListController">
+	<li data-ng-repeat="event in events">
+		{{event.name}}, {{event.place}}, {{event.date | date:"dd.MM.yy"}}
+	</li>
+</ul><!--
+					--></code></pre>
+				</div>
+			</li>
+		</ul>
+
+		<h2>Tests</h2>
+		<p>Zum Testen unserer Applikation verwenden wir Jasmine. Lesen Sie folgenden Blog Beitrag von AngularJS selbst:</p>
+		<ul>
+			<li><a href="https://angularjs.de/artikel/angularjs-test" target="_blank">AngularJS: Testen deiner AngularJS Anwendung mit Jasmine</a></li>
+		</ul>
+		<p>Die folgenden Links dienen Ihnen als Nachschlagewerk zur Konfiguration von Jasmine und RequireJS und für Unit Testing mit AngularJS:
+		<ul>
+			<li><a href="https://www.airpair.com/jasmine/posts/javascriptintegrating-jasmine-with-requirejs-amd" target="_blank">airpair.com: Integrating Jasmine with RequireJs</a></li>
+			<li><a href="https://docs.angularjs.org/guide/unit-testing" target="_blank">docs.angularjs.org/guide/unit-testing</a></li>
+		</ul>
+		<ul>
+			<li>Legen Sie folgende Struktur an:
+				<pre><!--
+-->App
+|-- source
+|-- tests
+| +-- classes
+| | +-- controllers
+| | | '-- eventListControllerTest.js
+| | '-- tests.js
+| '-- index.html
+'-- libraries
+  '-- jasmine<!--
+  				--></pre>
+			</li>
+			<li>Laden Sie die neuste Standalone Version von Jasmine herunter: <a href="https://github.com/jasmine/jasmine/releases" target="_blank">github.com/jasmine/jasmine/releases</a> und entpacken Sie den Inhalt des Verzeichnisses &quot;/lib/jasmine-*.*.*/&quot; nach &quot;tests/libraries/jasmine&quot;</li>
+			<li>Legen Sie &quot;tests/index.html&quot; an. Verlinken Sie die Jasmine Styles und das Icon:
+				<pre class="prettyprint"><code class="language-html"><!--
+-->&lt;link rel="shortcut icon" type="image/png" href="./libraries/jasmine/jasmine_favicon.png" /&gt;
+&lt;link rel="stylesheet" type="text/css" href="./libraries/jasmine/jasmine.css" /&gt;<!--
+				--></code></pre>
+			</li>
+			<li>Ergänzen Sie &quot;index.html&quot; und konfigurieren Sie RequireJS analog wie wir es für die App gemacht haben, um app und tests zu laden. Leider ist die neuste Version von Jasmine nicht RequireJS kompatibel, sodass einige Workarounds notwendig sind. &quot;tests.js&quot;:
+
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->require.config({
+	baseUrl: './',
+	paths: {
+		'frameworks/angular': '../source/frameworks/angular/angular.min',
+		'app': '../source/classes',
+		'tests': 'classes',
+		'libraries/jasmine': ['libraries/jasmine/jasmine'],
+		'libraries/jasmine-html': ['libraries/jasmine/jasmine-html'],
+		'libraries/jasmine-boot': ['libraries/jasmine/boot']
+	},
+	shim: {
+		'frameworks/angular': {
+			exports: ['angular']
+		},
+		'libraries/jasmine-html': {
+			deps : ['libraries/jasmine']
+		},
+		'libraries/jasmine-boot': {
+			deps : ['libraries/jasmine', 'libraries/jasmine-html']
+		}
+	}
+});
+
+
+require(['libraries/jasmine-boot'], function () {
+	require(['tests/controllers/eventListControllerTest'], function(){
+		//trigger Jasmine
+		window.onload();
+	})
+});
+<!--
+				--></code></pre>
+				Jasmine hängt sich in den globalen Namespace und lässt sich nicht wie Angular über einen Shim Loader einbinden. Grund dafür ist folgender:
+				Jasmin erwartet, das es vor den Tests eingebunden wird. Tests werden über die globale Funktion &quot;describe&quot; deklariert. Sobald Alle Scripts geladen wurden, feuert der Browser den onload event des window. Jasmine hängt sich auf diesen Event und führt die Tests aus.<br />
+				Da unsere Tests asynchron mittels RequireJS nachgeladen werden, wurde der onload-Event des Window schon längst gefeuert, sodass Jasmine den Testrunner bereits ausgeführt hat, bevor Tests vorhanden sind. Aus diesem Grund müssen wir nach dem Laden der Tests erneut &quot;window.onload()&quot; aufrufen.
+			</li>
+			<li>Legen Sie einen Test für den EventListController an:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->define([], function () {
+	'use strict';
+
+	describe('EventListController test suite', function() {
+		it('Expects 3 events on scope', function() {
+			// ...
+		});
+	});
+});<!--
+				--></code></pre>
+				Weil Jasmine die Funktionen &quot;describe()&quot; und &quot;it()&quot; global definiert, können wir diese nicht als Abhängigkeiten importieren und verwenden sie global.<br />
+				Definieren Sie einen Test, der überprüft, ob sich 3 Events in der Scope Variable &quot;events&quot; befinden. Initialisieren Sie den Controller dazu mit einem leeren Scope-Objekt:
+
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->var scope = {};
+var eventListController = new EventListController(scope);
+<!--
+				--></code></pre>
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->define(['app/controllers/eventListController'], function (EventListController) {
+	'use strict';
+
+	describe('EventListController test suite', function() {
+		it('Expects 3 events on scope', function() {
+			var scope = {};
+			var eventListController = new EventListController(scope);
+
+			expect(3).toBe(eventListController.scope.events.length);
+		});
+	});
+});<!--
+					--></code></pre>
+				</div>
+			</li>
+		</ul>
+
+
+		<h2>Model</h2>
+		<p>Bisher haben wir mit einfachen Objekten gearbeitet und nicht mit Prototypen.</p>
+		<ul>
+			<li>Erstellen Sie ein Model für Events (name, description, targetGroup, eventGift, location(name, street, zipCode, city), preparation(begin, end), event(begin, end), maximalAmountOfGuests).</li>
+			<li>Erstellen Sie einen Test, der folgende Properties (set/get) testet und implementieren Sie diese anschliessend:
+				<ul>
+					<li>begin</li>
+					<li>end</li>
+				</ul>
+				Benutzer Sie ES5 setter/getter für die Properties.
+				Implementieren Sie auch noch die Properties &quot;preparationBegin&quot; und &quot;preparationEnd&quot;
+
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-javascript"><!--
+-->Object.defineProperty(this, 'begin', {
+	get: function() {
+		return this.event.begin;
+	},
+	set: function(begin) {
+		this.event.begin = begin;
+	}
+});
+
+Object.defineProperty(this, 'end', {
+	get: function() {
+		return this.event.end;
+	},
+	set: function(end) {
+		this.event.end = end;
+	}
+});
+
+Object.defineProperty(this, 'preparationBegin', {
+	get: function() {
+		return this.preparation.begin;
+	},
+	set: function(begin) {
+		this.event.preparation = begin;
+	}
+});
+
+Object.defineProperty(this, 'preparationEnd', {
+	get: function() {
+		return this.preparation.end;
+	},
+	set: function(end) {
+		this.preparation.end = end;
+	}
+});
+<!--
+					--></code></pre>
+				</div>
+			</li>
+			<li>Ersetzen Sie die Events im EventListController mit Event Objekten vom Model und passen Sie das Template an. Ergänzen Sie das Template, sodass auch die Zeit ausgegeben wird.</li>
+
+			<div class="solution">
+				<p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/EventModel" target="_blank">Tag: Event-Model</a></p>
+			</div>
+		</ul>
+  </body>
+</html>
