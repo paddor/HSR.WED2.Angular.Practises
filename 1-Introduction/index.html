@@ -2,7 +2,7 @@
 <html lang="de">
 	<head>
 		<meta charset="utf-8" />
-		<title>WED2 Übung: Angular - 1 Einführung</title>
+		<title>WED2 Übung: AngularJS - 1 Einführung</title>
 
 		<link rel="stylesheet" type="text/css" href="../../resources/documentStyle.css">
 		<script src="../../resources/solutions.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<h1>
 			<a class="backlink" href="../index.html">⇦</a>
-			WED2 Übung: Angular - 1 Einführung
+			WED2 Übung: AngularJS - 1 Einführung
 			<button id="showSolutions">Lösungen anzeigen/ausblenden</button>
 		</h1>
 
@@ -30,9 +30,9 @@
 		</p>
 		<p>
 			<ol>
-				<li>Laden Sie die neuste Version von Angular 1.x.x von der Angular Seite herunter
+				<li>Laden Sie die neuste Version von AngularJS 1.4.x von der AngularJS Seite herunter
 				(z.B. <a href="https://code.angularjs.org/1.4.3/angular.min.js" target="_blank">https://code.angularjs.org/1.4.3/angular.min.js</a>) und erstellen Sie ein gültiges HTML-Dokument, in das Sie das Framework einbinden.</li>
-				<li>Definieren Sie einen Container (div), den Sie als Angular App deklarieren. Benutzen Sie die vom HTML-Standard vorgeschlagene Variante dazu.</li>
+				<li>Definieren Sie einen Container (div), den Sie als AngularJS App deklarieren. Benutzen Sie die vom HTML-Standard vorgeschlagene Variante dazu.</li>
 				<li>Erstellen Sie eine Expression, die den String
 					<blockquote cite="https://de.wikipedia.org/wiki/AngularJS" title="Quelle: https://de.wikipedia.org/wiki/AngularJS">
 						AngularJS ist ein Open-Source-Framework des US-amerikanischen Unternehmens Google Inc.
@@ -44,14 +44,14 @@
 					Deklarieren Sie dazu den String als Variable in einer Expression und verwenden Sie diese für beide Ausgaben.
 
 					<div class="solution">
-						<p>Siehe <a href="expressions.html" target="_blank">expressions.html</a>.<br />Beachten Sie die Verwendung von &quot;data-ng-app&quot; anstelle von &quot;ng-app&quot;. Nach dem HTML5-Standard müssen nicht-standardisierte Attribute mit &quot;data-&quot; beginnen.</p>
+						<p>Siehe <a href="solution/installation.html" target="_blank">solution/installation.html</a>.<br />Beachten Sie die Verwendung von &quot;data-ng-app&quot; anstelle von &quot;ng-app&quot;. Nach dem HTML5-Standard müssen nicht-standardisierte Attribute mit &quot;data-&quot; beginnen.</p>
 					</div>
 				</li>
 				<li>
 					Beantworten Sie dazu folgende Fragen:
 					<ol>
 						<li>
-							Warum empfiehlt es sich, Angular lokal einzubinden statt über einen Content Delivery Service wie z.B. Google Code?
+							Warum empfiehlt es sich, AngularJS lokal einzubinden statt über einen Content Delivery Service wie z.B. Google Code?
 
 							<div class="solution">
 								<p>
@@ -64,13 +64,13 @@
 							</div>
 						</li>
 						<li>
-							Eigentlich sollten JavaScript Dateien ganz unten im Dokument-Body eingebunden werden. Können Sie sich einen Grund vorstellen, warum wir Angular im Header einbinden?
+							Eigentlich sollten JavaScript Dateien ganz unten im Dokument-Body eingebunden werden. Können Sie sich einen Grund vorstellen, weshalbf wir AngularJS im Header einbinden?
 
 							<div class="solution">
-								<p>Wird Angular als letztes eingebunden, so passiert folgendes: Der Browser parst bereits während dem Laden des HTML Dokuments dessen Inhalt.
+								<p>Wird AngularJS als letztes eingebunden, so passiert folgendes: Der Browser parst bereits während dem Laden des HTML Dokuments dessen Inhalt.
 									Als erstes werden die Angaben im Head eingelesen und referenzierte Scripts und Styles nachgeladen. Dann wird der Body geparst.
-									Der Browser parst und rendert den Inhalt der HTML Seite, bevor er durch Angular verarbeitet werden kann. Sobald Angular geladen wurde, rendert dieses die Expressions und Directives und ersetzt den Inhalt.
-									Dadurch wird ein unschöner &quot;Flash&quot; erzeugt, bei dem ganz kurz das eigentliche Template angezeigt wird.
+									Der Browser parst und rendert den Inhalt der HTML Seite, bevor er durch AngularJS verarbeitet werden kann. Sobald AngularJS geladen wurde, rendert dieses die Expressions und Directives und ersetzt den Inhalt.
+									Dadurch wird ein unschöner &quot;Flash&quot; erzeugt, bei dem ganz kurz das der Source Code des Templates angezeigt wird.
 								</p>
 								<p>
 									Siehe auch <a href="http://stackoverflow.com/questions/15538125/angularjs-in-head-vs-body" target="_blank">http://stackoverflow.com/questions/15538125/angularjs-in-head-vs-body</a>
@@ -124,7 +124,7 @@
 							</dl>
 						</li>
 					</ul>
-					Schauen Sie sich die &quot;repeat&quot;-Direktive von Angular an und geben Sie die Anlässe mit Name, Ort und Datum als Liste aus. Blenden Sie über die &quot;show&quot;- oder &quot;hide&quot; -Direktive nur Anlässe ein, die in Rapperswil stattfinden.
+					Schauen Sie sich die &quot;repeat&quot;-Direktive von AngularJS an und geben Sie die Anlässe mit Name, Ort und Datum als Liste aus. Blenden Sie über die &quot;show&quot;- oder &quot;hide&quot; -Direktive nur Anlässe ein, die in Rapperswil stattfinden.
 
 					<div class="solution">
 						<p>Siehe <a href="solution/directives2.html" target="_blank">solution/directives2.html</a>.</p>
@@ -136,9 +136,9 @@
 
 		<h2>Filter</h2>
 		<p>
-			Schauen Sie sich die Angular Dokumentation zu Filter an:
+			Schauen Sie sich die AngularJS Dokumentation zu Filter an:
 			<ul>
-				<li><a href="https://docs.angularjs.org/api/ng/filter" target="_blank">Angular Filter</a></li>
+				<li><a href="https://docs.angularjs.org/api/ng/filter" target="_blank">AngularJS Filter</a></li>
 			</ul>
 		</p>
 		<p>
@@ -166,7 +166,7 @@
 					Sie haben bereits bei den letzten Aufgaben Scope Variablen verwendet: nämlich die Variable &quot;events&quot;. Alle im Scope definierten Variablen stehen im Template zur Verfügung und können auch modifiziert werden.</li>
 				<li>Erweitern Sie das Beispiel mit dem Events um die Möglichkeit, neue Events hinzuzufügen.
 
-					Benutzen Sie die Vorlage <a href="template/scopes1.html" target="_blank">template/scopes1.html</a>
+					Benutzen Sie die Vorlage <a href="template/scopes1.html" target="_blank">template/scopes1.html</a>.
 
 					Gehen Sie dabei wie folgt vor:
 					<ol>
