@@ -166,10 +166,11 @@
 					Sie haben bereits bei den letzten Aufgaben Scope Variablen verwendet: nämlich die Variable &quot;events&quot;. Alle im Scope definierten Variablen stehen im Template zur Verfügung und können auch modifiziert werden.</li>
 				<li>Erweitern Sie das Beispiel mit den Anlässen um die Möglichkeit, neue Anlässe hinzuzufügen.
 
-					Benutzen Sie die Vorlage <a href="template/scopes1.html" target="_blank">template/scopes1.html</a>.
+					Benutzen Sie die Vorlage <a href="template/scopes1.html" target="_blank">template/scopes1.html</a>. 
 
 					Gehen Sie dabei wie folgt vor:
 					<ol>
+						<li>Entfernen Sie den Filter für ng-repeat, der alle Orte herausfiltert, die nicht Rapperswil heissen, um Verwirrung beim Ausprobieren zu verhindern.</li>
 						<li>Ergänzen Sie den Scope um ein &quot;leeres&quot;-Event-Objekt.</li>
 						<li>Binden Sie die Eigenschaften dieses Objektes an die Eingabefelder.</li>
 						<li>Definieren Sie für den Reset-Button eine Aktion, sodass beim Klicken das Event-Objekt zurückgesetzt wird.</li>
