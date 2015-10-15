@@ -22,7 +22,7 @@
 
 		<h2>Kontext</h2>
 		<p>
-			Wir werden in der folgenden Übung ein eine Applikation zur Verwaltung von Anlässen und Teilnehmenden aufbauen.
+			Wir werden in der folgenden Übung ein eine Applikation zur Verwaltung von Anlässen und Teilnehmenden aufbauen. Siehe <a href="../Miniprojekt/index.html">Miniprojekt</a>.
 		</p>
 
 
@@ -387,14 +387,13 @@ var eventListController = new EventListController(scope);
 		<h2>Model</h2>
 		<p>Bisher haben wir mit einfachen Objekten gearbeitet und nicht mit Prototypen.</p>
 		<ul>
-			<li>Erstellen Sie ein Model für Events (name, description, targetGroup, eventGift, location(name, street, zipCode, city), preparation(begin, end), event(begin, end), maximalAmountOfGuests).</li>
+			<li>Erstellen Sie ein Model für Events (name, description, targetGroup, eventGift, location(name, street, zipCode, city), times(begin, end), maximalAmountOfGuests).</li>
 			<li>Erstellen Sie einen Test, der folgende Properties (set/get) testet und implementieren Sie diese anschliessend:
 				<ul>
 					<li>begin</li>
 					<li>end</li>
 				</ul>
 				Benutzer Sie ES5 setter/getter für die Properties.
-				Implementieren Sie auch noch die Properties &quot;preparationBegin&quot; und &quot;preparationEnd&quot;
 
 				<div class="solution">
 					<pre class="prettyprint"><code class="language-javascript"><!--
@@ -413,24 +412,6 @@ Object.defineProperty(this, 'end', {
 	},
 	set: function(end) {
 		this.event.end = end;
-	}
-});
-
-Object.defineProperty(this, 'preparationBegin', {
-	get: function() {
-		return this.preparation.begin;
-	},
-	set: function(begin) {
-		this.event.preparation = begin;
-	}
-});
-
-Object.defineProperty(this, 'preparationEnd', {
-	get: function() {
-		return this.preparation.end;
-	},
-	set: function(end) {
-		this.preparation.end = end;
 	}
 });
 <!--

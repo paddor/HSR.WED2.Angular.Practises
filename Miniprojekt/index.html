@@ -47,25 +47,7 @@
 
 
 		<h2>REST-API</h2>
-		<p>Zur Anbindung der Persistenz wird eine REST-Schnittstelle mit folgendem Interface verwendet:</p>
-		<dl>
-			<dt>Alle Events</dt>
-			<dd>GET /events<br />
-				<i>Beispiel</i>: GET http://localhost:8080/events/</dd>
-			<dt>Event hinzufügen</dt>
-			<dd>POST /events/<br />
-				<i>Beispiel</i>: POST http://localhost:8080/events/</dd>
-			<dt>Event by id</dt>
-			<dd>GET /events/{eventID}<br />
-				<i>Beispiel</i>: GET http://localhost:8080/events/1</dd>
-			<dt>Gäste eines Events</dt>
-			<dd>GET /events/{eventID}/guests<br />
-				<i>Beispiel</i>: GET http://localhost:8080/events/1/guests</dd>
-			<dt>Gast hinzufügen</dt>
-			<dd>POST /events/{eventID}/guests<br />
-				<i>Beispiel</i>: POST http://localhost:8080/events/1/guests</dd>
-		</dl>
-
+		<p>Zur Anbindung der Persistenz wird eine REST-Schnittstelle mit folgendem Interface verwendet: <a href="./server/api/index.html" target="_blank">Event API (/api)</a></p>
 
 		<h2>Node.js-Server</h2>
 		<p>Zur Persistierung steht ein Node.js-Server mit einer REST-API zur Verfügung.</p>
@@ -91,6 +73,13 @@
 			<li>Die Applikation besteht aus mindestens vier verschiedenen Views. Mindestens zwei Views manipulieren Daten (Forms). Zur Navigation zwischen den Views wird die Routing Komponente von Angular eingesetzt.</li>
 			<li>Die Benutzeroberfläche besitzt mindestens ein funktionales, minimales Styling. CSS-Frameworks wie Foundation oder Bootstrap dürfen verwendet werden (keine Bootstrap JS!).</li>
 			<li>Für Formulare wird HTML5-Formvalidierung verwendet.</li>
+			<li>Für mindestens folgende Aktionen/Komponenten existieren Jasmine-Tests mit gemocktem HTTP-Service:
+				<ol>
+					<li>Test der Scope Variablen auf Korrektheit/Vollständigkeit im List-Controller mit mindestens 3 Datensätzen (Events).</li>
+					<li>Create Event View: Test über erfolgreiches Anlegen eines Neuen Events</li>
+					<li>Add Guest View: Test über erfolgreiches Hinzufügen eines Neuen gastes</li>
+				</ol>
+			</li>
 		</ol>
 
 
