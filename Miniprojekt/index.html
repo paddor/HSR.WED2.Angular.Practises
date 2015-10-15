@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<title>WED2 Übung: Angular - Miniprojekt</title>
+
+		<link rel="stylesheet" type="text/css" href="../../resources/documentStyle.css">
+	</head>
+	<body>
+		<h1>
+			<a class="backlink" href="../index.html">⇦</a>
+			WED2 Übung: Angular - Miniprojekt (Testat)
+		</h1>
+
+
+		<p>
+			Ziel des Miniprojektes ist es, eine Applikation zur Verwaltung von Anlässen (Events) mit AngularJS zu erstellen, um die Vorlesungsinhalte zu vertiefen.
+		</p>
+
+
+		<h2>User-Stories</h2>
+		<p>
+			Die Event-Applikation soll die folgenden User-Stories abdecken:
+		</p>
+		<ol>
+			<li>Als <strong>Veranstalter</strong> möchte ich eine <strong>Veranstaltung erfassen</strong> können, sodass Gäste sich über meine Veranstaltung informieren können.</li>
+			<li>Als <strong>Veranstalter</strong> möchte ich die <strong>maximale Anzahl Gäste eines Anlasses beschränken</strong> können, damit sich nicht mehr Gäste anmelden, als meine Veranstaltung Platz bieten kann.</li>
+			<li>Als <strong>Veranstalter</strong> möchte ich <strong>Detailinformationen zu meiner Veranstaltung erfassen</strong> können (Beschreibung, Zielgruppe, Mitbringsel, Location, Datum/Zeit), damit Gäste einen guten Eindruck meiner Veranstaltung erhalten.</li>
+			<li>Als <strong>Veranstalter</strong> möchte ich sehen können, <strong>wie viele Gäste</strong> sich für meine Veranstaltung <strong>angemeldet</strong> haben</strong> und <strong>was sie mitbringen</strong>, damit ich die Veranstaltung entsprechend vorbereiten kann.</li>
+			<li>Als <strong>Gast</strong> möchte ich eine <strong>Übersicht über die aktuellen Veranstaltungen</strong> erhalten, um mich für eine interessante Veranstaltung anmelden zu können.</li>
+			<li>Als <strong>Gast</strong> möchte ich mich <strong>für eine Veranstaltung anmelden</strong> können, um daran teilnehmen zu können und mitzuteilen, was ich mitbringen werde.</li>
+			<li>Als <strong>Gast</strong> möchte ich sehen können, <strong>was andere Gäste mitbringen</strong>, um nicht das Gleiche mitzubringen.</li>
+		</ol>
+
+
+		<h2>Benutzeroberfläche</h2>
+		<p>Sie sind in der Gestaltung der Benutzeroberfläche komplett frei, solange die andern Kriterien erfüllt sind.<br />
+		Die folgenden Wireframes sollen ihnen Inspirationen für einen möglichen Aufbau geben:</p>
+		<img src="./images/wireframes.jpg" style="height: 50em;" />
+
+		<p>Erwartet wird nur ein minimales Styling ähnlich den Wireframes. Wenn Sie Zeit und Lust haben, dürfen sie sich jedoch auch austoben. Folgende Inspiration dazu, was man machen könnte: </p>
+		<div style="display: flex; flex-direction: row;">
+			<img src="./images/lafete-ui-example-1.png" style="height: 20em; margin: 0.5em;" />
+			<img src="./images/lafete-ui-example-2.png" style="height: 20em; margin: 0.5em;" />
+			<img src="./images/lafete-ui-example-3.png" style="height: 20em; margin: 0.5em;" />
+		</div>
+
+
+		<h2>REST-API</h2>
+		<p>Zur Anbindung der Persistenz wird eine REST-Schnittstelle mit folgendem Interface verwendet:</p>
+		<dl>
+			<dt>Alle Events</dt>
+			<dd>GET /events<br />
+				<i>Beispiel</i>: GET http://localhost:8080/events/</dd>
+			<dt>Event hinzufügen</dt>
+			<dd>POST /events/<br />
+				<i>Beispiel</i>: POST http://localhost:8080/events/</dd>
+			<dt>Event by id</dt>
+			<dd>GET /events/{eventID}<br />
+				<i>Beispiel</i>: GET http://localhost:8080/events/1</dd>
+			<dt>Gäste eines Events</dt>
+			<dd>GET /events/{eventID}/guests<br />
+				<i>Beispiel</i>: GET http://localhost:8080/events/1/guests</dd>
+			<dt>Gast hinzufügen</dt>
+			<dd>POST /events/{eventID}/guests<br />
+				<i>Beispiel</i>: POST http://localhost:8080/events/1/guests</dd>
+		</dl>
+
+
+		<h2>Node.js-Server</h2>
+		<p>Zur Persistierung steht ein Node.js-Server mit einer REST-API zur Verfügung.</p>
+
+		<h3>Installation</h3>
+		<ol>
+			<li>Zip entpacken</li>
+			<li>In den Ordner wechseln (Ordner mit dem package.json-File).</li>
+			<li>Auf der Kommandozeile <code>npm install</code> ausführen.</li>
+			<li>Zum Starten des Servers <code>npm start</code> auf der Kommandozeile ausführen.</li>
+		</ol>
+
+
+		<h2>Testat Kriterien</h2>
+		<p>Damit sie das Tastat erfolgreich abschliessen können, muss ihre Applikation die folgenden Kriterien erfüllen:</p>
+		<ol>
+			<li>Die Applikation funktioniert in Firefox und Chrome.</li>
+			<li>Alle User-Stories wurden umgesetzt.</li>
+			<li>Die Applikation ist als Client-Server Applikation aufgebaut. Die Client-Applikation basiert auf AngularJS/JavaScript.</li>
+			<li>Die Applikation nutzt eine REST-Schnittstelle zum Datenaustausch mit dem Server (Persistenz). Ein Node.js-Server wird von uns vorgegeben, es ist jedoch auch erlaubt, eine eigene Implementation zu erstellen (beliebige Technologie), die die gleiche REST-Schnittstelle anbietet. Der von uns angebotene Node.js Server darf auch verändert/erweitert werden.</li>
+			<li>Zur Kommunikation mit dem Server wird der AngularJS Ajax Service verwendet.</li>
+			<li>Zur Verwaltung der Events und Gäste werden Services/Repositories eingesetzt.</li>
+			<li>Die Applikation besteht aus mindestens vier verschiedenen Views. Mindestens zwei Views manipulieren Daten (Forms). Zur Navigation zwischen den Views wird die Routing Komponente von Angular eingesetzt.</li>
+			<li>Die Benutzeroberfläche besitzt mindestens ein funktionales, minimales Styling. CSS-Frameworks wie Foundation oder Bootstrap dürfen verwendet werden (keine Bootstrap JS!).</li>
+			<li>Für Formulare wird HTML5-Formvalidierung verwendet.</li>
+		</ol>
+
+
+		<h2>Zusätzliche Hinweise/Regeln</h2>
+		<ol>
+			<li>Teamarbeit: Mindestens 2 Personen, höchstens 3 Personen.</li>
+			<li>CSS Präprozessoren wie Less oder Sass sind erlaubt.</li>
+			<li>JavaScript Precompiler wie TypeScript oder CoffeeScript sind erlaubt. Dart ist nur als Präprozessor erlaubt (nicht mit Dartium-Browser).</li>
+			<li>Nebst Angular sind keine andern Client-JavaScript-Frameworks/Libraries wie z.B. jQuery, ExtJS etc. erlaubt.</li>
+			<li>Für Page-Layouts dürfen keine CSS Floats, display-inline-block oder Tabellen eingesetzt werden.</li>
+		</ol>
+
+
+		<h2>Abgabe</h2>
+		<p>Jedes Team erhält in der Übungsstunde eine Viertelstunde Zeit, um die Applikation den Übungsleitern zu zeigen.</p>
+  </body>
+</html>
