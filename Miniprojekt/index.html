@@ -27,8 +27,10 @@
 			<li>Als <strong>Veranstalter</strong> möchte ich die <strong>maximale Anzahl Gäste eines Anlasses beschränken</strong> können, damit sich nicht mehr Gäste anmelden, als meine Veranstaltung Platz bieten kann.</li>
 			<li>Als <strong>Veranstalter</strong> möchte ich <strong>Detailinformationen zu meiner Veranstaltung erfassen</strong> können (Beschreibung, Zielgruppe, Mitbringsel, Location, Datum/Zeit), damit Gäste einen guten Eindruck meiner Veranstaltung erhalten.</li>
 			<li>Als <strong>Veranstalter</strong> möchte ich sehen können, <strong>wie viele Gäste</strong> sich für meine Veranstaltung <strong>angemeldet</strong> haben</strong> und <strong>was sie mitbringen</strong>, damit ich die Veranstaltung entsprechend vorbereiten kann.</li>
+
 			<li>Als <strong>Gast</strong> möchte ich eine <strong>Übersicht über die aktuellen Veranstaltungen</strong> erhalten, um mich für eine interessante Veranstaltung anmelden zu können.</li>
 			<li>Als <strong>Gast</strong> möchte ich mich <strong>für eine Veranstaltung anmelden</strong> können, um daran teilnehmen zu können und mitzuteilen, was ich mitbringen werde.</li>
+			<li>Als <strong>Gast</strong> möchte ich meine Anmeldung editieren können, um etwas anderes mitbringen zu können oder den Kommentar anzupassen.</li>
 			<li>Als <strong>Gast</strong> möchte ich sehen können, <strong>was andere Gäste mitbringen</strong>, um nicht das Gleiche mitzubringen.</li>
 		</ol>
 
@@ -64,7 +66,7 @@
 		<h2>Testat Kriterien</h2>
 		<p>Damit sie das Tastat erfolgreich abschliessen können, muss ihre Applikation die folgenden Kriterien erfüllen:</p>
 		<ol>
-			<li>Die Applikation funktioniert in Firefox und Chrome.</li>
+			<li>Die Applikation funktioniert in Firefox und Chrome (FF 40+, GC 45+).</li>
 			<li>Alle User-Stories wurden umgesetzt.</li>
 			<li>Die Applikation ist als Client-Server Applikation aufgebaut. Die Client-Applikation basiert auf AngularJS/JavaScript.</li>
 			<li>Die Applikation nutzt eine REST-Schnittstelle zum Datenaustausch mit dem Server (Persistenz). Ein Node.js-Server wird von uns vorgegeben, es ist jedoch auch erlaubt, eine eigene Implementation zu erstellen (beliebige Technologie), die die gleiche REST-Schnittstelle anbietet. Der von uns angebotene Node.js Server darf auch verändert/erweitert werden.</li>
@@ -73,11 +75,12 @@
 			<li>Die Applikation besteht aus mindestens vier verschiedenen Views. Mindestens zwei Views manipulieren Daten (Forms). Zur Navigation zwischen den Views wird die Routing Komponente von Angular eingesetzt.</li>
 			<li>Die Benutzeroberfläche besitzt mindestens ein funktionales, minimales Styling. CSS-Frameworks wie Foundation oder Bootstrap dürfen verwendet werden (keine Bootstrap JS!).</li>
 			<li>Für Formulare wird HTML5-Formvalidierung verwendet.</li>
-			<li>Für mindestens folgende Aktionen/Komponenten existieren Jasmine-Tests mit gemocktem HTTP-Service:
+			<li>Für mindestens folgende Aktionen/Komponenten existieren Jasmine-Tests mit gemockten Services:
 				<ol>
 					<li>Test der Scope Variablen auf Korrektheit/Vollständigkeit im List-Controller mit mindestens 3 Datensätzen (Events).</li>
 					<li>Create Event View: Test über erfolgreiches Anlegen eines Neuen Events</li>
 					<li>Add Guest View: Test über erfolgreiches Hinzufügen eines Neuen gastes</li>
+					<li>Test jeder Repository-Methode/API-Calls mit gemocktem $httpBackend.</li>
 				</ol>
 			</li>
 		</ol>
@@ -94,6 +97,10 @@
 
 
 		<h2>Abgabe</h2>
-		<p>Jedes Team erhält in der Übungsstunde eine Viertelstunde Zeit, um die Applikation den Übungsleitern zu zeigen.</p>
+		<ul>
+			<li>KW 50</li>
+			<li>Jedes Team erhält in der Übungsstunde eine Viertelstunde Zeit, um die Applikation den Übungsleitern zu zeigen.</li>
+			<li>Einschreibeliste: Folgt auf Google Docs</li>
+		</ul>
   </body>
 </html>

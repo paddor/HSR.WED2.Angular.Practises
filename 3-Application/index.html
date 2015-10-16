@@ -2,7 +2,7 @@
 <html lang="de">
 	<head>
 		<meta charset="utf-8" />
-		<title>WED2 Übung: Angular - 3 Umfangreiche Applikation</title>
+		<title>WED2 Miniprojekt: Angular - 3 Umfangreiche Applikation</title>
 
 		<link rel="stylesheet" type="text/css" href="../../resources/documentStyle.css">
 		<script src="../../resources/solutions.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<h1>
 			<a class="backlink" href="../index.html">⇦</a>
-			WED2 Übung: Angular - 3 Umfangreiche Applikation
+			WED2 Miniprojekt: Angular - 3 Umfangreiche Applikation
 			<button id="showSolutions">Lösungen anzeigen/ausblenden</button>
 		</h1>
 
@@ -117,9 +117,11 @@ var EventListController = function($scope, storageService) {
 		eventListController = new EventListController(scope, storageService);
 	}));
 
-	describe('EventListController test suite', function() {
-		it('Expects 3 events on scope', function() {
-			expect(3).toBe(eventListController.scope.events.length);
+	describe('EventListController', function() {
+		describe('property scope', function() {
+			it('contains 3 events', function() {
+				expect(3).toBe(eventListController.scope.events.length);
+			});
 		});
 	});
 });<!--
@@ -261,16 +263,51 @@ define(['app/model/event', 'app/services/storageService'], function (Event, Stor
 			);
  		});
 
-		it('Expects get() will return event or null on invalid identifier', function() {
-			// TODO
+		describe('get()', function() {
+			beforeEach(function() {
+				// TODO
+			});
+
+			describe('by object id', function() {
+				it('returns the object', function() {
+					// TODO
+				});
+			});
+
+			describe('by inexistent object id', function() {
+				it('returns null', function() {
+					// TODO
+				});
+			});
 		});
 
-		it('Expects return of all() is Array', function() {
-			// TODO
+
+		describe('all()', function() {
+			it('returns an Array', function() {
+				// TODO
+			});
 		});
 
-		it('Expects add() will add element only once and status will be correct', function() {
-			// TODO
+		describe('add()', function() {
+			it('inserts element', function() {
+				// TODO
+			});
+
+			describe('same element again', function() {
+				// TODO
+
+				beforeEach(function() {
+					// TODO
+				});
+
+				it('doesn\'t affect repository size', function() {
+					// TODO
+				});
+
+				it('returns false', function() {
+					// TODO
+				});
+			});
 		});
 	});
 });
@@ -451,5 +488,166 @@ var Event = function(name, description, targetGroup, eventGift, location, prepar
 			</li>
 		</ul>
 
+
+		<h2>Server Anbindung</h2>
+		<p>Bisher haben wir einen StorageService mit statischen Daten als Basis für unsere Event-Liste verwendet. Jetzt wollen wir die Events über ein Repository vom Server laden.</p>
+		<p>Für die Tests existiert eine Statische Route <code>/tests</code>, damit sie die Tests auch aufrufen können, wenn sie die Applikation über den Node.js-Server ausliefern.</p>
+
+		<p>Lesen Sie das Kapitel zum HTTP-Services auf angularjsbook.com:
+		<ul>
+			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/http/" target="_blank">angularjsbook.com, Kapitel: HTTP</a></li>
+		</ul>
+		<ul>
+			<li>Benennen Sie dazu den StorageService in EventRepository um und verschieben sie es in einen neuen Ordner <code>classes/repository</code>, passen Sie alle Referenzen an. Vergessen Sie nicht, auch alle Tests anzupassen, sodass diese wieder funktionieren.</li>
+			<li>Damit die Tests trotz dem Einbau der Ajax Calls funktionieren, müssen wir die API-Calls mocken.
+				Importieren sie dazu AngularMock und passen Sie den EventRepositoryTest an:
+
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// tests/classes/repository/eventRepositoryTest.js
+...
+var event, eventRepository, $http, $httpBackend;
+
+// setup
+beforeEach(AngularMocks.inject(function($injector) {
+	$http = $injector.get('$http');
+	$httpBackend = $injector.get('$httpBackend');
+
+	eventRepository = new EventRepository($http);
+	event = EventFactory.createEvent();
+
+	// $http Service will return this list of events when call /api/events
+	$httpBackend.when('GET', eventRepository.urls.all).respond({
+		events: [{id: 1, name: 'Dinner'},{id: 2, name: 'Lunch'}]
+	});
+}));
+
+// Check if there are no hanging requests
+afterEach(function() {
+	$httpBackend.verifyNoOutstandingExpectation();
+	$httpBackend.verifyNoOutstandingRequest();
+});
+...
+it('returns an Array', function() {
+	var events = null;
+	eventRepository.all(function(eventList) {
+		events = eventList;
+	});
+	// Mock ajax channel needs to be flushed (calls needs to be fired) befor check
+	$httpBackend.flush();
+	expect(events).toEqual(jasmine.any(Array));
+});
+
+it('returns two events', function() {
+	// TODO
+});
+...
+<!--
+				--></code></pre>
+			</li>
+			<li>Passen Sie die Dependency Injection für das EventRepository an und ersetzen Sie im EventRepository die Aufrufe auf die lokale Event-Liste in der all()-Methode mit einem API-Call. Verwenden Sie dazu den AngularJS HTTP-Service:
+
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// classes/modules/lafete.js
+EventRepository.$inject = ['$http'];
+Lafete.service('EventRepository', EventRepository);
+<!--
+				--></code></pre>
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// classes/repository/eventRepository.js
+...
+var EventRepository = function($http) {
+	this.urls = {
+		all: '/api/events',
+		get: '/api/events/{eventId}',
+		add: '/api/events'
+	}
+...
+/**
+ * Get all events
+ *
+ * @return Event[]
+ */
+this.all = function(successCallback) {
+	// Angular HTTP-Service get request
+	// return event list by callback on success
+	$http.get(this.urls.all)
+		.success(function(data) {
+			successCallback(data.events);
+		});
+};
+...
+<!--
+				--></code></pre>
+			</li>
+			<li>Da Sie jetzt mit einem Callback arbeiten, müssen Sie auch alle Stellen anpassen, die all() verwenden. z.B. den ListController und den Test für add():
+
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// classes/controllers/event/listController.js
+...
+var EventListController = function($scope, EventRepository) {
+	this.scope = $scope;
+	EventRepository.all(function(events) {
+		this.scope.events = events;
+	});
+};
+...
+<!--
+				--></code></pre>
+				Ihnen wir auffallen, das wir für den add()-Test wiederum die all() Methode verwendet haben und dadurch diese mittesten. Aus diesem Grund failt dieser Test auch, seit wir die all() Methode umgebaut haben. Diese Abhängigkeit beseitigen wir, indem wir direkt auf die Liste mit den Events zugreifen:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// tests/classes/repository/eventRepositoryTest.js
+...
+describe('same element again', function() {
+	var size, status2;
+
+	beforeEach(function() {
+		eventRepository.add(event);
+
+		size = eventRepository.events.length;
+		status2 = eventRepository.add(event);
+	});
+
+	it('doesn\'t affect repository size', function() {
+		expect(eventRepository.events.length).toBe(size);
+	});
+	it('returns false', function() {
+		expect(status2).toBe(false);
+	});
+});<!--
+				--></code></pre>
+			</li>
+			<li>Sie werden feststellen, das auch der Controller Test failt. Grund dafür ist die Tatsache, das wir statt einem Mock das echte Repository verwendet haben und dieses somit mittesten. Auch diese Abhängigkeit wollen wir entfernen, damit wir nur den Controller selbst testen:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// tests/classes/controllers/eventListControllerTest.js
+...
+var scope, eventRepository, $httpBackend;
+
+beforeEach(AngularMocks.inject(function($injector) {
+	scope = $injector.get('$rootScope').$new();
+
+	var events = [{id: 1, name: 'Dinner'},{id: 2, name: 'Lunch'},{id: 3, name: 'Brunch'}];
+	// Mock repository to test controller only
+	eventRepository = {
+		all: function(successCallback) {
+			successCallback(events);
+		}
+	};
+}));
+
+describe('EventListController', function() {
+	describe('property scope', function() {
+		it('contains 3 events', function() {
+			var eventListController = new EventListController(scope, eventRepository);
+			expect(3).toBe(eventListController.scope.events.length);
+		});
+	});
+});
+...
+<!--
+					--></code></pre>
+			</li>
+			<li>Nachdem Sie alle von all() abhängigen Klassen und Tests angepasst haben, sollten die Tests wieder grün durchlaufen und die Liste in Benutzeroberfläche funktionieren wie bisher. Die Detailansicht zeigt im Moment nichts an, da diese noch auf die alte Liste mit den lokalen Events zeigt und diese entsprechend andere ID's verwenden.</li>
+			<li>Ersetzen Sie nun auch die Aufrufe auf die lokale Event-Liste in den Methoden get() und add() mit API-Calls. Verwenden Sie dazu den AngularJS HTTP-Service. Und schreiben Sie weitere when-Regeln für die Tests.</li>
+		</ul>
   </body>
 </html>
