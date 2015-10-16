@@ -632,11 +632,66 @@ describe('EventListController', function() {
 		});
 	});
 });
-...
-<!--
+...<!--
 					--></code></pre>
 			</li>
 			<li>Nachdem Sie alle von all() abhängigen Klassen und Tests angepasst haben, sollten die Tests wieder grün durchlaufen und die Liste in Benutzeroberfläche funktionieren wie bisher. Die Detailansicht zeigt im Moment nichts an, da diese noch auf die alte Liste mit den lokalen Events zeigt und diese entsprechend andere ID's verwenden.</li>
+			<li>Im Moment liefert die all() Methode einfache Objekte statt Event-Objekte zurück. Dadurch fehlen uns unter Anderem die Properties &quot;begin&quot; und &quot;end&quot;. Wir sollten die Objekte noch konvertieren, bevor wir sie zurückliefern. Folgender Tests überprüft dies:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// tests/classes/repository/eventRepositoryTest.js
+describe('all()', function() {
+	...
+	it('returns real javascript objects', function() {
+			$httpBackend.expectGET(eventRepository.urls.all);
+			var events = null;
+			eventRepository.all(function(eventList) {
+				events = eventList;
+			});
+			$httpBackend.flush();
+			expect(events[0]).toEqual(jasmine.any(Event));
+			expect(events[1]).toEqual(jasmine.any(Event));
+	});
+	...<!--
+				--></code></pre>
+				Jetzt passen wir die all()-Methode entsprechend an, bis die Test grün werden. Dazu verwenden wir eine Factory-Methode:
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->// classes/model/event.js
+...
+};
+
+/**
+ * Create Event object from data transfer object (json object)
+ */
+Event.createFromDTO = function(jsonData) {
+	return new Event(
+		jsonData.name,
+		jsonData.description,
+		jsonData.targetGroup,
+		jsonData.eventGift,
+		jsonData.location,
+		jsonData.times,
+		jsonData.maximalAmoutOfGuests,
+		jsonData.id
+	);
+};<!--
+				--></code></pre>
+				<pre class="prettyprint"><code class="language-javascript"><!--
+-->
+return Event;
+...
+
+// classes/repository/eventRepository.js
+...
+.success(function(data) {
+	// map applys a function on every element in the array and returns the result as new array
+	var events = data.events.map(function(eventDTO) {
+		return Event.createFromDTO(eventDTO);
+	});
+	successCallback(events);
+});
+...<!--
+				--></code></pre>
+			</li>
 			<li>Ersetzen Sie nun auch die Aufrufe auf die lokale Event-Liste in den Methoden get() und add() mit API-Calls. Verwenden Sie dazu den AngularJS HTTP-Service. Und schreiben Sie weitere when-Regeln für die Tests.</li>
 		</ul>
   </body>
