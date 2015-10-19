@@ -24,20 +24,51 @@
 			Die Event-Applikation soll die folgenden User-Stories abdecken:
 		</p>
 		<ol>
-			<li>Als <strong>Veranstalter</strong> möchte ich eine <strong>Veranstaltung erfassen</strong> können, sodass Gäste sich über meine Veranstaltung informieren können.</li>
+			<li>Als <strong>Veranstalter</strong> möchte ich eine <strong>Veranstaltung (Name, Beschreibung, Zielgruppe, Beitrag, Ort, Datum/Zeit, Kommentar) erfassen</strong> können, sodass Gäste sich über meine Veranstaltung informieren können.</li>
 			<li>Als <strong>Veranstalter</strong> möchte ich die <strong>maximale Anzahl Gäste eines Anlasses beschränken</strong> können, damit sich nicht mehr Gäste anmelden, als meine Veranstaltung Platz bieten kann.</li>
-			<li>Als <strong>Veranstalter</strong> möchte ich <strong>Detailinformationen zu meiner Veranstaltung erfassen</strong> können (Beschreibung, Zielgruppe, Mitbringsel, Location, Datum/Zeit), damit Gäste einen guten Eindruck meiner Veranstaltung erhalten.</li>
 			<li>Als <strong>Veranstalter</strong> möchte ich sehen können, <strong>wie viele Gäste</strong> sich für meine Veranstaltung <strong>angemeldet</strong> haben</strong> und <strong>was sie mitbringen</strong>, damit ich die Veranstaltung entsprechend vorbereiten kann.</li>
 
 			<li>Als <strong>Gast</strong> möchte ich eine <strong>Übersicht über die aktuellen Veranstaltungen</strong> erhalten, um mich für eine interessante Veranstaltung anmelden zu können.</li>
-			<li>Als <strong>Gast</strong> möchte ich mich <strong>für eine Veranstaltung anmelden</strong> können, um daran teilnehmen zu können und mitzuteilen, was ich mitbringen werde.</li>
+			<li>Als <strong>Gast</strong> möchte ich mich <strong>für eine Veranstaltung anmelden</strong> können, um daran teilnehmen zu können und mitzuteilen, was ich mitbringen werde oder einen Kommentar zu hinterlassen.</li>
 			<li>Als <strong>Gast</strong> möchte ich meine <strong>Anmeldung editieren</strong> können, um etwas anderes mitbringen zu können oder den Kommentar anzupassen.</li>
+			<li>Als <strong>Gast</strong> möchte ich eine Anmeldung canceln können, sodas der Gastgeber sieht, wer sich wieder abgemeldet hat.</li>
 			<li>Als <strong>Gast</strong> möchte ich sehen können, <strong>was andere Gäste mitbringen</strong>, um nicht das Gleiche mitzubringen.</li>
 		</ol>
 
 
+		<h2>Model</h2>
+		<pre>
+Event:
+	id [string]
+	name [string]
+	description [string]
+	targetGroup [string]
+	contribution [string]
+	location:
+		name [string]
+		street [string]
+		zipCode [string]
+		city [string]
+	times:
+		begin [Date]
+		end [Date]
+	maximalAmoutOfGuests [number]
+	guests [Guest[]]
+
+	\begin
+	\end
+
+Guest:
+	id [string]
+	name [string]
+	contribution [string]
+	comment [string]
+	canceled [boolean=false]
+		</pre>
+
+
 		<h2>Benutzeroberfläche</h2>
-		<p>Sie sind in der Gestaltung der Benutzeroberfläche komplett frei, solange die andern Kriterien erfüllt sind.<br />
+		<p>Sie sind in der Gestaltung der Benutzeroberfläche komplett frei, solange die andern Kriterien erfüllt sind und die Oberfläche Responsive ist.<br />
 		Die folgenden Wireframes sollen Ihnen Inspirationen für einen möglichen Aufbau geben:</p>
 		<img src="./images/wireframes.jpg" style="height: 50em;" />
 
@@ -75,6 +106,7 @@
 			<li>Zur Verwaltung der Events und Gäste werden Services/Repositories eingesetzt.</li>
 			<li>Die Applikation besteht aus mindestens vier verschiedenen Views. Mindestens zwei Views manipulieren Daten (Forms). Zur Navigation zwischen den Views wird die Routing Komponente von Angular eingesetzt.</li>
 			<li>Die Benutzeroberfläche besitzt mindestens ein funktionales, minimales Styling. CSS-Frameworks wie Foundation oder Bootstrap dürfen verwendet werden (keine Bootstrap JS!).</li>
+			<li>Responsive Design (360px*576px - 1920px*1080).</li>
 			<li>Für Formulare wird, wo sinnvoll, HTML5-Formvalidierung + AngularJS Formvalidierung verwendet.</li>
 			<li>Für mindestens folgende Aktionen/Komponenten existieren Jasmine-Tests mit gemockten Services:
 				<ol>
@@ -92,8 +124,10 @@
 			<li><strong>Teamarbeit</strong>: Mindestens 2 Personen, höchstens 3 Personen.</li>
 			<li>CSS Präprozessoren wie Less oder Sass sind erlaubt.</li>
 			<li>JavaScript Precompiler wie TypeScript oder CoffeeScript sind erlaubt. Dart ist nur als Präprozessor erlaubt (nicht mit Dartium-Browser).</li>
+			<li>RequireJS wird als Module-Loader verwendet.</li>
 			<li>Nebst Angular sind keine andern Client-JavaScript-Frameworks/Libraries wie z.B. jQuery, ExtJS etc. erlaubt.</li>
 			<li>Für Page-Layouts dürfen keine CSS Floats, display-inline-block oder Tabellen eingesetzt werden.</li>
+			<li>Die Projektsource muss auf dem HSR Gitserver oder einem öffentlichen Gitserver wie GitHub oder GitBucket abgelegt werden.</li>
 		</ol>
 
 

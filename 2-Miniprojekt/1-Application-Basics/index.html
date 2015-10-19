@@ -57,16 +57,16 @@
 						</div>
 					</li>
 					<li>
-						Welche Nachteile müssen Sie in Kauf nehmen, wenn sie ihren Code strukturieren und nicht ein ein einzelnes Script packen?
+						Welche Nachteile müssen Sie in Kauf nehmen, wenn sie ihren Code strukturieren und nicht eine einzelne Scriptdatei packen?
 
 						<div class="solution">
 							<ul>
-								<li>Sie müssen jedes einzelne Skript einbinden. Dies ist fehleranfällig und wartungsintensiv.</li>
+								<li>Sie müssen jede Skriptdatei einzeln einbinden. Dies ist fehleranfällig und wartungsintensiv.</li>
 								<li>Jedes einzelne Skript, das geladen wird, führt zu einem Server-Roundtrip und somit zu einer Verzögerung.</li>
 								<li>Binden Sie die Skripte in der falschen Reihenfolge ein, so gibt es Probleme mit Abhängigkeiten.</li>
 							</ul>
 							<p>
-							Aufgrund all dieser Nachteile werden Skripte minified (zusammenkompiliert) oder über einen Module Loader wie RequireJS geladen.
+							Aufgrund all dieser Nachteile werden Skripte minified (zusammenkompiliert in eine Datei) oder über einen Module Loader wie RequireJS geladen.
 							</p>
 						</div>
 					</li>
@@ -124,7 +124,7 @@ define(['angular'], function (angular) {
 
 
 		<h2>Angular Module</h2>
-		<p>Angular Module sind apps und dienen der Modularisierung einer grossen Applikation. Für unsere Appliaktion reicht ein Modul aus:</p>
+		<p>Angular Module sind Apps und dienen der Modularisierung einer grossen Applikation (vertikale Struktur). Für unsere Appliaktion reicht ein Modul aus:</p>
 		<ul>
 			<li>Legen Sie im Ordner &quot;classes&quot; einen ordner &quot;modules&quot; an.</li>
 			<li>Erstellen Sie die Datei &quot;lafete.js&quot; in diesem Ordner.</li>
@@ -159,9 +159,9 @@ define(['angular', 'app/modules/lafete'], function (Angular, Lafete) {
 				--></code></pre>
 			</li>
 		</ul>
-		<p>RequireJS ermöglicht es uns, eine sauber strukturierte Code Base zu erstellen und entsprechend Abhängigkeiten zu definieren. Aber was ist mit Angular? Dies steht im Moment auf einer Ebene mit &quot;app&quot; in unserer Struktur. Lassen Sie uns dies beheben:</p>
+		<p>RequireJS ermöglicht es uns, eine sauber strukturierte Code Base zu erstellen und entsprechend Abhängigkeiten zu definieren. Aber was ist mit Angular? Wir binden Angular im gleichen Namespace wie unsere App ein. Lassen Sie uns dies beheben:</p>
 		<ul>
-			<li>Bennen Sie den virtuellen Pfad für Angular von &quot;angular&quot; nach &quot;frameworks/angular&quot; um.
+			<li>Bennen Sie den Namespace für Angular von &quot;angular&quot; nach &quot;frameworks/angular&quot; um.
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->//...
 paths: {
@@ -252,11 +252,11 @@ shim: {
 
 				<div class="solution">
 					<pre class="prettyprint"><code class="language-html"><!--
---><ul data-ng-controller="EventListController">
-	<li data-ng-repeat="event in events">
+-->&lt;ul data-ng-controller="EventListController"&gt;
+	&lt;li data-ng-repeat="event in events"&gt;
 		{{event.name}}, {{event.place}}, {{event.date | date:"dd.MM.yy"}}
-	</li>
-</ul><!--
+	&lt;/li&gt;
+&lt;/ul&gt;<!--
 					--></code></pre>
 				</div>
 			</li>
@@ -381,7 +381,7 @@ var eventListController = new EventListController(scope);
 		<h2>Model</h2>
 		<p>Bisher haben wir mit einfachen Objekten gearbeitet und nicht mit Prototypen.</p>
 		<ul>
-			<li>Erstellen Sie ein Model für Events (name, description, targetGroup, eventGift, location(name, street, zipCode, city), times(begin, end), maximalAmountOfGuests).</li>
+			<li>Erstellen Sie ein Model (Konstruktor) für Events (name, description, targetGroup, contribution, location(name, street, zipCode, city), times(begin, end), maximalAmountOfGuests).</li>
 			<li>Erstellen Sie einen Test, der folgende Properties (set/get) testet und implementieren Sie diese anschliessend:
 				<ul>
 					<li>begin</li>
