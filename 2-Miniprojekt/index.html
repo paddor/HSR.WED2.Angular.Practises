@@ -68,11 +68,11 @@ Guest:
 
 
 		<h2>Benutzeroberfläche</h2>
-		<p>Sie sind in der Gestaltung der Benutzeroberfläche komplett frei, solange die andern Kriterien erfüllt sind und die Oberfläche Responsive ist.<br />
+		<p>Sie sind in der Gestaltung der Benutzeroberfläche komplett frei, solange die anderen Kriterien erfüllt sind und die Oberfläche Responsive ist.<br />
 		Die folgenden Wireframes sollen Ihnen Inspirationen für einen möglichen Aufbau geben:</p>
 		<img src="./images/wireframes.jpg" style="height: 50em;" />
 
-		<p>Erwartet wird nur ein minimales Styling ähnlich den Wireframes. Wenn Sie Zeit und Lust haben, dürfen sie sich jedoch auch austoben. Folgende Inspiration dazu, was man machen könnte: </p>
+		<p>Erwartet wird nur ein minimales Styling ähnlich den Wireframes. Wenn Sie Zeit und Lust haben, dürfen Sie sich jedoch auch austoben. Folgende Inspiration dazu, was man machen könnte: </p>
 		<div style="display: flex; flex-direction: row;">
 			<img src="./images/lafete-ui-example-1.png" style="height: 20em; margin: 0.5em;" />
 			<img src="./images/lafete-ui-example-2.png" style="height: 20em; margin: 0.5em;" />
@@ -84,7 +84,7 @@ Guest:
 		<p>Zur Anbindung der Persistenz wird eine REST-Schnittstelle mit folgendem Interface verwendet: <a href="./server/api/index.html" target="_blank">Event API (/api)</a></p>
 
 		<h2>Node.js-Server</h2>
-		<p>Zur Persistierung steht ein Node.js-Server mit einer REST-API zur Verfügung. Diesen benötigen Sie, sobald sie die Services/Repositories soweit implementiert haben, das Sie einen Server anbinden können.</p>
+		<p>Zur Persistierung steht ein Node.js-Server mit einer REST-API zur Verfügung. Diesen benötigen Sie, sobald Sie die Services/Repositories soweit implementiert haben, sodass Sie einen Server anbinden können.</p>
 
 		<h3>Installation</h3>
 		<ol>
@@ -96,12 +96,12 @@ Guest:
 
 
 		<h2>Testat Kriterien</h2>
-		<p>Damit sie das Tastat erfolgreich abschliessen können, muss ihre Applikation die folgenden Kriterien erfüllen:</p>
+		<p>Damit Sie das Testat erfolgreich abschliessen können, muss Ihre Applikation die folgenden Kriterien erfüllen:</p>
 		<ol>
 			<li>Die Applikation funktioniert in Firefox und Chrome (FF 40+, GC 45+).</li>
 			<li>Alle User-Stories wurden umgesetzt.</li>
 			<li>Die Applikation ist als Client-Server Applikation aufgebaut. Die Client-Applikation basiert auf AngularJS/JavaScript.</li>
-			<li>Die Applikation nutzt eine REST-Schnittstelle zum Datenaustausch mit dem Server (Persistenz). Ein Node.js-Server wird von uns vorgegeben, es ist jedoch auch erlaubt, eine eigene Implementation zu erstellen (beliebige Technologie), die die gleiche REST-Schnittstelle anbietet. Der von uns angebotene Node.js Server darf auch verändert/erweitert werden.</li>
+			<li>Die Applikation nutzt eine REST-Schnittstelle zum Datenaustausch mit dem Server (Persistenz). Ein Node.js-Server wird von uns vorgegeben, es ist jedoch auch erlaubt, eine eigene Implementation zu erstellen (beliebige Technologie), welche die gleiche REST-Schnittstelle anbietet. Der von uns angebotene Node.js Server darf auch verändert/erweitert werden.</li>
 			<li>Zur Kommunikation mit dem Server wird der AngularJS Ajax Service verwendet.</li>
 			<li>Zur Verwaltung der Events und Gäste werden Services/Repositories eingesetzt.</li>
 			<li>Die Applikation besteht aus mindestens vier verschiedenen Views. Mindestens zwei Views manipulieren Daten (Forms). Zur Navigation zwischen den Views wird die Routing Komponente von Angular eingesetzt.</li>
@@ -111,8 +111,8 @@ Guest:
 			<li>Für mindestens folgende Aktionen/Komponenten existieren Jasmine-Tests mit gemockten Services:
 				<ol>
 					<li>Test der Scope Variablen auf Korrektheit/Vollständigkeit im List-Controller mit mindestens 3 Datensätzen (Events).</li>
-					<li>Create Event View: Test über erfolgreiches Anlegen eines Neuen Events</li>
-					<li>Add Guest View: Test über erfolgreiches Hinzufügen eines Neuen Gastes</li>
+					<li>Create Event View: Test über erfolgreiches Anlegen eines neuen Events</li>
+					<li>Add Guest View: Test über erfolgreiches Hinzufügen eines neuen Gastes</li>
 					<li>Test jeder Repository-Methode/API-Calls mit gemocktem $httpBackend.</li>
 				</ol>
 			</li>
@@ -125,7 +125,7 @@ Guest:
 			<li>CSS Präprozessoren wie Less oder Sass sind erlaubt.</li>
 			<li>JavaScript Precompiler wie TypeScript oder CoffeeScript sind erlaubt. Dart ist nur als Präprozessor erlaubt (nicht mit Dartium-Browser).</li>
 			<li>RequireJS wird als Module-Loader verwendet.</li>
-			<li>Nebst Angular sind keine andern Client-JavaScript-Frameworks/Libraries wie z.B. jQuery, ExtJS etc. erlaubt.</li>
+			<li>Nebst Angular sind keine anderen Client-JavaScript-Frameworks/Libraries wie z.B. jQuery, ExtJS etc. erlaubt.</li>
 			<li>Für Page-Layouts dürfen keine CSS Floats, display-inline-block oder Tabellen eingesetzt werden.</li>
 			<li>Die Projektsource muss auf dem HSR Gitserver oder einem öffentlichen Gitserver wie GitHub oder GitBucket abgelegt werden und dem Übungsbetreuer muss Zugriff auf das Repository freigeschalten werden.</li>
 		</ol>
@@ -134,7 +134,7 @@ Guest:
 		<h2>Abgabe</h2>
 		<ul>
 			<li>KW 50</li>
-			<li>Jedes Team erhält in der Übungsstunde eine Viertelstunde Zeit, um die Applikation den Übungsleitern zu zeigen. Ebenfalls gezeigt werden muss das Git-Log.</li>
+			<li>Jedes Team erhält in der Übungsstunde eine Viertelstunde Zeit, um die Applikation den Übungsleitern zu demonstrieren. Ebenfalls gezeigt werden muss das Git-Log.</li>
 			<li>Einschreibeliste: Siehe Link auf dem Skripteserver.</li>
 		</ul>
   </body>
