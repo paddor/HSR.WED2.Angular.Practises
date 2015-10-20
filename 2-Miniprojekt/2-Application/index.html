@@ -17,7 +17,7 @@
 
 
 		<h2>Services</h2>
-		<p>Bisher haben wir lediglich mit Controller-lokalen Daten gearbeitet. Sollen Daten oder Funktionen über die ganze Applikation hinweg verfügbar sein und sind ein an sich gekapselter Funtionsteil, so wird dies in Angular mit Services gelöst.</p>
+		<p>Bisher haben wir lediglich mit Controller-lokalen Daten gearbeitet. Sollen Daten oder Funktionen über die ganze Applikation hinweg verfügbar sein und sind diese ein an sich gekapselter Funktionsteil, so wird dies in Angular mit Services gelöst.</p>
 		<p>Lesen Sie das Kapitel zu Services auf angularjsbook.com:
 		<ul>
 			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/services/" target="_blank">angularjsbook.com, Kapitel: Services</a></li>
@@ -70,7 +70,7 @@ var EventListController = function($scope, storageService) {
 					 <p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/StorageService" target="_blank">Tag: Event-Model</a></p>
 				 </div>
 			</li>
-				Wie sie feststellen werden, failen nun die Tests. Schauen Sie sich den verlinkten Artikel von Sitepoint an und korrigieren Sie den EventListControllerTest, sodass er wieder funktioniert. Für die Injection von Componenten benötigen Sie noch angular-mock.js. Laden Sie die zu ihrer Angular Version passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a></li>). und legen Sie sie unter &quot;tests/libraries/angular&quot; ab.
+				Wie Sie feststellen werden, failen nun die Tests. Schauen Sie sich den verlinkten Artikel von Sitepoint an und korrigieren Sie den EventListControllerTest, sodass er wieder funktioniert. Für die Injection von Componenten benötigen Sie noch angular-mock.js. Laden Sie die zu Ihrer Angular Version passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a></li>). und legen Sie sie unter &quot;tests/libraries/angular&quot; ab.
 				Angular-mocks binden Sie wie folgt ein:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->require.config({
@@ -131,7 +131,7 @@ var EventListController = function($scope, storageService) {
 		<h3>Angular-Route Installation</h3>
 		<ul>
 			<li>Laden Sie das Angular Module &quot;Angular-route&quot; in der passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a>) und legen Sie es im Ordner Libraries ab.</li>
-			<li>Fügen Sie Angular-Route in der Pfad Konfiguration von Require hinzu und ergänzen Sie einen Shim Eintrag. Sie müssen Angular-Route nicht exportieren, sondern lediglich eine Abhängigkeit zum Angular definieren:
+			<li>Fügen Sie Angular-Route in der Pfad-Konfiguration von Require hinzu und ergänzen Sie einen Shim Eintrag. Sie müssen Angular-Route nicht exportieren, sondern lediglich eine Abhängigkeit zum Angular definieren:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// main.js
 'libraries/angularRoute': {
@@ -161,7 +161,7 @@ Angular.bootstrap(document, [Lafete.name]);<!--
 					--></code></pre>
 				</div>
 			</li>
-			<li>Konfigurieren Sie mittels &quot;Routeprovider&quot; die Route &quot;/list&quot; und leiten Sie alle Andern Routen zu dieser um.
+			<li>Konfigurieren Sie mittels &quot;Routeprovider&quot; die Route &quot;/list&quot; und leiten Sie alle anderen Routen zu dieser um.
 
 				<div class="solution">
 					<pre class="prettyprint"><code class="language-javascript"><!--
@@ -180,7 +180,7 @@ Angular.bootstrap(document, [Lafete.name]);<!--
 		</ul>
 		<p><strong>Einige Browser unterbinden Ajax Zugriffe auf lokale Dateien.</strong> Aus diesem Grund werden Sie eine Netzwerkfehlermeldung erhalten. Starten Sie die App in diesem Fall nicht direkt vom Dateisystem, sondern über einen HTTP-Server. Webstorm kann dies. <br />
 		Ansonsten können Sie auch Node dazu verwenden: <br />
-		Installieren Sie Node und laden sie das Node Modul &quot;http-server&quot; <code>npm install http-server</code>. Wechseln Sie nun ins Verzeichnis &quot;source&quot; und starten Sie den Server mittels Command <code>http-server</code>. Jetzt können Sie über <a href="localhost:8080" target="_blank">localhost:8080</a> bzw. den Port, den Node ihnen auf der Commandline anzeigt, die App im Browser aufrufen.</p>
+		Installieren Sie Node und laden sie das Node Modul &quot;http-server&quot; <code>npm install http-server</code>. Wechseln Sie nun ins Verzeichnis &quot;source&quot; und starten Sie den Server mittels Command <code>http-server</code>. Jetzt können Sie über <a href="localhost:8080" target="_blank">localhost:8080</a> bzw. den Port, den Node Ihnen auf der Commandline anzeigt, die App im Browser aufrufen.</p>
 
 
 		<h2>Detailansicht</h2>
@@ -375,7 +375,7 @@ define(['tests/factories/eventFactory', ... ],
 
 				</div>
 			</li>
-			<li>Verlinken Sie Die Events in der Liste.</li>
+			<li>Verlinken Sie die Events in der Liste.</li>
 			<li>Definieren Sie eine Route <code>/events/:eventId</code>.
 				Ändern Sie die Route der bestehenden Listenansicht nach <code>/events</code>.
 				<div class="solution">
@@ -457,13 +457,13 @@ Lafete.controller('EventDetailController', EventDetailController);
 				Die für Events erzwungene UUID beim Erstellen einer Instanz schränkt die Testbarkeit ein,
 				da zu Testzwecken keine vorgegebene UUID gesetzt werden kann.
 				Dies führt im aktuellen Entwicklungsbetrieb auch dazu,
-				das Sie auf der Detailansicht nicht neu Laden können,
+				das Sie auf der Detailansicht nicht neu laden können,
 				weil jedes Mal neue UUID's generiert werden.
 				Ergänzen Sie den Konstruktor des Event um einen weiteren Parameter und
 				lassen Sie die UUID nur automatisch setzen,
-				wenn dieser leer ist. Schreiben Sie zuerst einen Test dafür und implementieren Sie anschliessend ihre Lösung.
+				wenn dieser leer ist. Schreiben Sie zuerst einen Test dafür und implementieren Sie anschliessend Ihre Lösung.
 				Passen Sie auch den StorageService an,
-				sodass die Events mit vordefinierten UUID's initialisiert werden anstelle der ZUfälligen.
+				sodass die Events mit vordefinierten UUID's anstelle der Zufälligen initialisiert werden.
 
 				<div class="solution">
 
@@ -481,14 +481,14 @@ var Event = function(name, description, targetGroup, eventGift, location, prepar
 
 		<h2>Server Anbindung</h2>
 		<p>Bisher haben wir einen StorageService mit statischen Daten als Basis für unsere Event-Liste verwendet. Jetzt wollen wir die Events über ein Repository vom Server laden.</p>
-		<p>Für die Tests existiert eine Statische Route <code>/tests</code>, damit sie die Tests auch aufrufen können, wenn sie die Applikation über den Node.js-Server ausliefern.</p>
+		<p>Für die Tests existiert eine statische Route <code>/tests</code>, damit Sie die Tests auch aufrufen können, wenn Sie die Applikation über den Node.js-Server ausliefern.</p>
 
-		<p>Lesen Sie das Kapitel zum HTTP-Services auf angularjsbook.com:
+		<p>Lesen Sie das Kapitel zu den HTTP-Services auf angularjsbook.com:
 		<ul>
 			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/http/" target="_blank">angularjsbook.com, Kapitel: HTTP</a></li>
 		</ul>
 		<ul>
-			<li>Benennen Sie dazu den StorageService in EventRepository um und verschieben sie es in einen neuen Ordner <code>classes/repository</code>, passen Sie alle Referenzen an. Vergessen Sie nicht, auch alle Tests anzupassen, sodass diese wieder funktionieren.</li>
+			<li>Benennen Sie dazu den StorageService in EventRepository um, verschieben sie es in einen neuen Ordner <code>classes/repository</code> und passen Sie alle Referenzen an. Vergessen Sie nicht, auch alle Tests anzupassen, sodass diese wieder funktionieren.</li>
 			<li>Damit die Tests trotz dem Einbau der Ajax Calls funktionieren, müssen wir die API-Calls mocken.
 				Importieren sie dazu AngularMock und passen Sie den EventRepositoryTest an:
 
@@ -569,7 +569,7 @@ this.all = function(successCallback) {
 <!--
 				--></code></pre>
 			</li>
-			<li>Da Sie jetzt mit einem Callback arbeiten, müssen Sie auch alle Stellen anpassen, die all() verwenden. z.B. den ListController und den Test für add():
+			<li>Da Sie jetzt mit einem Callback arbeiten, müssen Sie auch alle Stellen anpassen, die all() verwenden (z.B. den ListController und den Test für add()):
 
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// classes/controllers/event/listController.js
@@ -583,7 +583,7 @@ var EventListController = function($scope, EventRepository) {
 ...
 <!--
 				--></code></pre>
-				Ihnen wir auffallen, das wir für den add()-Test wiederum die all() Methode verwendet haben und dadurch diese mittesten. Aus diesem Grund failt dieser Test auch, seit wir die all() Methode umgebaut haben. Diese Abhängigkeit beseitigen wir, indem wir direkt auf die Liste mit den Events zugreifen:
+				Ihnen wir auffallen, das wir für den add()-Test wiederum die all() Methode verwendet haben und dadurch diese mittesten. Aus diesem Grunde failt dieser Test auch, weil wir die all() Methode umgebaut haben. Diese Abhängigkeit beseitigen wir, indem wir direkt auf die Liste mit den Events zugreifen:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// tests/classes/repository/eventRepositoryTest.js
 ...
@@ -606,7 +606,7 @@ describe('same element again', function() {
 });<!--
 				--></code></pre>
 			</li>
-			<li>Sie werden feststellen, das auch der Controller Test failt. Grund dafür ist die Tatsache, das wir statt einem Mock das echte Repository verwendet haben und dieses somit mittesten. Auch diese Abhängigkeit wollen wir entfernen, damit wir nur den Controller selbst testen:
+			<li>Sie werden feststellen, dass auch der Controller Test failt. Grund dafür ist die Tatsache, dass wir anstatt eines Mocks das echte Repository verwendet haben und dieses somit mittesten. Auch diese Abhängigkeit wollen wir entfernen, damit wir nur den Controller selbst testen:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// tests/classes/controllers/eventListControllerTest.js
 ...
@@ -635,8 +635,8 @@ describe('EventListController', function() {
 ...<!--
 					--></code></pre>
 			</li>
-			<li>Nachdem Sie alle von all() abhängigen Klassen und Tests angepasst haben, sollten die Tests wieder grün durchlaufen und die Liste in Benutzeroberfläche funktionieren wie bisher. Die Detailansicht zeigt im Moment nichts an, da diese noch auf die alte Liste mit den lokalen Events zeigt und diese entsprechend andere ID's verwenden.</li>
-			<li>Im Moment liefert die all() Methode einfache Objekte statt Event-Objekte zurück. Dadurch fehlen uns unter Anderem die Properties &quot;begin&quot; und &quot;end&quot;. Wir sollten die Objekte noch konvertieren, bevor wir sie zurückliefern. Folgender Tests überprüft dies:
+			<li>Nachdem Sie alle von all() abhängigen Klassen und Tests angepasst haben, sollten die Tests wieder grün durchlaufen und die Liste in Benutzeroberfläche wie bisher funktionieren. Die Detailansicht zeigt im Moment nichts an, da diese noch auf die alte Liste mit den lokalen Events zeigt und diese entsprechend andere ID's verwenden.</li>
+			<li>Im Moment liefert die all() Methode einfache Objekte statt Event-Objekte zurück. Dadurch fehlen uns unter anderem die Properties &quot;begin&quot; und &quot;end&quot;. Wir sollten die Objekte noch konvertieren, bevor wir sie zurückliefern. Folgender Tests überprüft dies:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// tests/classes/repository/eventRepositoryTest.js
 describe('all()', function() {
@@ -653,7 +653,7 @@ describe('all()', function() {
 	});
 	...<!--
 				--></code></pre>
-				Jetzt passen wir die all()-Methode entsprechend an, bis die Test grün werden. Dazu verwenden wir eine Factory-Methode:
+				Jetzt passen wir die all()-Methode entsprechend an, bis die Tests grün durchlaufen. Dazu verwenden wir eine Factory-Methode:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// classes/model/event.js
 ...
@@ -692,7 +692,7 @@ return Event;
 ...<!--
 				--></code></pre>
 			</li>
-			<li>Ersetzen Sie nun auch die Aufrufe auf die lokale Event-Liste in den Methoden get() und add() mit API-Calls. Verwenden Sie dazu den AngularJS HTTP-Service. Und schreiben Sie weitere when-Regeln für die Tests.</li>
+			<li>Ersetzen Sie nun auch die Aufrufe auf die lokale Event-Liste in den Methoden get() und add() mit API-Calls. Verwenden Sie dazu den AngularJS HTTP-Service. Ergänzen Sie weitere when-Regeln für die Tests.</li>
 		</ul>
   </body>
 </html>
