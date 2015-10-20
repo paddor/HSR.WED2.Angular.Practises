@@ -18,14 +18,14 @@ var allowCrossDomain = function(request, response, next) {
 var eventId = 0;
 var events = [];
 
-function createEvent(id, name, description, targetGroup, eventGift, location, times){
+function createEvent(id, name, description, targetGroup, contributionsDescription, location, times){
     if(name) {
         var event = {
             id: (id) ? id : ++eventId,
             name : name,
             description : description,
             targetGroup: targetGroup,
-            eventGift: eventGift,
+            contributionsDescription: contributionsDescription,
             location:location,
             times : times,
             guests:[]
@@ -43,11 +43,11 @@ function findEvent(id) {
     })[0];
 }
 
-function createGuest(event, name, gift, comment){
+function createGuest(event, name, contribution, comment){
     if(event && event.guests) {
         var guest = {
             name : name,
-            gift: gift,
+            contribution: contribution,
             comment: comment
         };
         event.guests.push(guest);
@@ -128,7 +128,7 @@ app.post('/api/events', function(request, response) {
        request.body.name,
        request.body.description,
        request.body.targetGroup,
-       request.body.eventGift,
+       request.body.contributionsDescription,
        request.body.location,
        request.body.times
    );
@@ -162,7 +162,7 @@ app.post('/api/events/:id/guests', function(request, response) {
     if(event){
         response.json(createGuest(
             event,request.body.name,
-            request.body.gift,
+            request.body.contribution,
             request.body.comment
         ));
     } else{

@@ -20,7 +20,7 @@ var postRequest = http.request(postOptions, function(response) {
 });
 
 // post the data
-var data = {"name":"HSR-Party","desc":"Party an der HSR","targetGroup":"Studenten","eventGift":"Kuchen","location":{"name":"hsr","street":"Oberseestrasse","plz":8640,"city":"Rapperswil"}};
+var data = {"name":"HSR-Party","desc":"Party an der HSR","targetGroup":"Studenten","contributionsDescription":"Kuchen","location":{"name":"hsr","street":"Oberseestrasse","plz":8640,"city":"Rapperswil"}};
 postRequest.write(JSON.stringify(data));
 postRequest.end();
 
@@ -42,6 +42,6 @@ var postRequest = http.request(postOptions, function(response) {
     });
 });
 
-var guest = {"name":"Bob","gift":"Nichts","comment":"-"};
+var guest = {"name":"Bob","contribution":"Nichts","comment":"-"};
 postRequest.write(JSON.stringify(guest));
 postRequest.end();
