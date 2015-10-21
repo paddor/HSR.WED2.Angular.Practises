@@ -17,7 +17,7 @@
 
 
 		<h2>Services</h2>
-		<p>Bisher haben wir lediglich mit Controller-lokalen Daten gearbeitet. Sollen Daten oder Funktionen über die ganze Applikation hinweg verfügbar sein und sind diese ein an sich gekapselter Funktionsteil, so wird dies in Angular mit Services gelöst.</p>
+		<p>Bisher haben wir lediglich mit Controller-lokalen Daten gearbeitet. Wenn Daten (oder Funktionen) über die ganze Applikation hinweg verfügbar sein sollen, dann werden häufig AngularJS Services eingesetzt. AngularJS-Services erlauben eine Kapselung der Daten und Funktionen.</p>
 		<p>Lesen Sie das Kapitel zu Services auf angularjsbook.com:
 		<ul>
 			<li><a href="http://www.angularjsbook.com/angular-basics/chapters/services/" target="_blank">angularjsbook.com, Kapitel: Services</a></li>
@@ -44,7 +44,7 @@ define(['app/model/event'], function(Event) {
 				</div>
 			</li>
 			<li>
-				 Deklarieren Sie diesen als Angular Service und injection Sie ihn in den EventListController.
+				 Deklarieren Sie diesen als Angular Service und nutzen Sie ihn im EventListController (Tip: Dependency Injection).
 
 				 <div class="solution">
 					 <pre class="prettyprint"><code class="language-javascript"><!--
@@ -70,7 +70,7 @@ var EventListController = function($scope, storageService) {
 					 <p><a href="https://github.com/wasabideveloper/HSR.WED2.Angular.Lafete/releases/tag/StorageService" target="_blank">Tag: Event-Model</a></p>
 				 </div>
 			</li>
-				Wie Sie feststellen werden, failen nun die Tests. Schauen Sie sich den verlinkten Artikel von Sitepoint an und korrigieren Sie den EventListControllerTest, sodass er wieder funktioniert. Für die Injection von Componenten benötigen Sie noch angular-mock.js. Laden Sie die zu Ihrer Angular Version passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a></li>). und legen Sie sie unter &quot;tests/libraries/angular&quot; ab.
+				Wie Sie feststellen werden, failen nun die Tests. Schauen Sie sich den verlinkten Artikel von Sitepoint an und korrigieren Sie den EventListControllerTest, sodass er wieder funktioniert. Für die Injection von (Mock-)Componenten benötigen Sie noch angular-mock.js. Laden Sie die zu Ihrer Angular Version passenden Version herunter (<a href="https://code.angularjs.org/" target="_blank">code.angularjs.org</a></li>). und legen Sie sie unter &quot;tests/libraries/angular&quot; ab.
 				Angular-mocks binden Sie wie folgt ein:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->require.config({
@@ -178,7 +178,7 @@ Angular.bootstrap(document, [Lafete.name]);<!--
 				</div>
 			</li>
 		</ul>
-		<p><strong>Einige Browser unterbinden Ajax Zugriffe auf lokale Dateien.</strong> Aus diesem Grund werden Sie eine Netzwerkfehlermeldung erhalten. Starten Sie die App in diesem Fall nicht direkt vom Dateisystem, sondern über einen HTTP-Server. Webstorm kann dies. <br />
+		<p><strong>Einige Browser unterbinden Ajax Zugriffe auf lokale Dateien.</strong> Bei der Nutzung dieser Browser werden Sie eine Netzwerkfehlermeldung erhalten. Starten Sie die App in diesem Fall nicht direkt vom Dateisystem, sondern über einen HTTP-Server. Webstorm kann dies. <br />
 		Ansonsten können Sie auch Node dazu verwenden: <br />
 		Installieren Sie Node und laden sie das Node Modul &quot;http-server&quot; <code>npm install http-server</code>. Wechseln Sie nun ins Verzeichnis &quot;source&quot; und starten Sie den Server mittels Command <code>http-server</code>. Jetzt können Sie über <a href="localhost:8080" target="_blank">localhost:8080</a> bzw. den Port, den Node Ihnen auf der Commandline anzeigt, die App im Browser aufrufen.</p>
 
@@ -214,7 +214,7 @@ Angular.bootstrap(document, [Lafete.name]);<!--
 });<!--
 				--></code></pre>
 			</li>
-			<li>Erstellen Sie einen Test, der überprüft, ob neu erstellte Events eine UUID als &quot;id&quot; besitzen. Sie können dazu folgenden regulären Ausdruck verwenden: <pre class="prettyprint"><code class="language-javascript">new RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}')</code></pre><strong>Hinweis</strong>: Schauen Sie sich die Funktion <code>toMatch()</code> von Jasmine an.
+			<li>Erstellen Sie einen Test, der überprüft, ob neu erstellte Events eine UUID als &quot;id&quot; besitzen. Sie können dazu folgenden regulären Ausdruck verwenden: <pre class="prettyprint"><code class="language-javascript">new RegExp('[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}')</code></pre><strong>Tip</strong>: Die Jasmine Funktion <code>toMatch()</code> hilft bei der Überprüfung von Werten mittels Regex Ausdrücken.
 				<div class="solution">
 					<pre class="prettyprint"><code class="language-javascript"><!--
 -->it('Expects event id to be UUID', function() {
@@ -236,7 +236,7 @@ Angular.bootstrap(document, [Lafete.name]);<!--
 					--></code></pre>
 				</div>
 			</li>
-			<li>Die Eventliste im StorageService soll wie folgt umgebaut werden. Erstellen Sie dazu zuerst die Testsuite &quot;storageServiceTest&quot;:
+			<li>Die Eventliste im StorageService soll wie unten beschrieben umgebaut werden. Erstellen Sie dazu zuerst die Testsuite &quot;storageServiceTest&quot; und passen Sie dann den StorageService an:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// tests/classes/services/storageServiceTest.js
 define(['app/model/event', 'app/services/storageService'], function (Event, StorageService) {
@@ -450,7 +450,7 @@ Lafete.controller('EventDetailController', EventDetailController);
 		<ul>
 			<li>
 				Verschieben Sie die Templates &quot;detail.html&quot; und &quot;list.html&quot;
-				in ein Unterverzeichnis &quot;event&quot;
+				in ein Unterverzeichnis &quot;event&quot;.
 				Passen Sie die Modulkonfiguration entsprechend an.
 			</li>
 			<li>
@@ -583,7 +583,7 @@ var EventListController = function($scope, EventRepository) {
 ...
 <!--
 				--></code></pre>
-				Ihnen wir auffallen, das wir für den add()-Test wiederum die all() Methode verwendet haben und dadurch diese mittesten. Aus diesem Grunde failt dieser Test auch, weil wir die all() Methode umgebaut haben. Diese Abhängigkeit beseitigen wir, indem wir direkt auf die Liste mit den Events zugreifen:
+				Ihnen wird auffallen, das wir für den add()-Test wiederum die all() Methode verwendet haben und dadurch diese mittesten. Aus diesem Grunde failt dieser Test auch, weil wir die all() Methode umgebaut haben. Diese Abhängigkeit beseitigen wir, indem wir direkt auf die Liste mit den Events zugreifen:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// tests/classes/repository/eventRepositoryTest.js
 ...
@@ -606,7 +606,7 @@ describe('same element again', function() {
 });<!--
 				--></code></pre>
 			</li>
-			<li>Sie werden feststellen, dass auch der Controller Test failt. Grund dafür ist die Tatsache, dass wir anstatt eines Mocks das echte Repository verwendet haben und dieses somit mittesten. Auch diese Abhängigkeit wollen wir entfernen, damit wir nur den Controller selbst testen:
+			<li>Sie werden feststellen, dass auch der Controller Test failt. Grund dafür ist, dass wir anstatt eines Mocks das echte Repository verwendet haben und dieses somit mittesten. Auch diese Abhängigkeit wollen wir entfernen, damit wir nur den Controller selbst testen:
 				<pre class="prettyprint"><code class="language-javascript"><!--
 -->// tests/classes/controllers/eventListControllerTest.js
 ...
@@ -692,7 +692,7 @@ return Event;
 ...<!--
 				--></code></pre>
 			</li>
-			<li>Ersetzen Sie nun auch die Aufrufe auf die lokale Event-Liste in den Methoden get() und add() mit API-Calls. Verwenden Sie dazu den AngularJS HTTP-Service. Ergänzen Sie weitere when-Regeln für die Tests.</li>
+			<li>Ersetzen Sie nun auch die Aufrufe auf die lokale Event-Liste in den Repository-Methoden get() und add() mit API-Calls, so wie wir es bei der all()-Methode gemacht haben. Verwenden Sie dazu auch wieder den AngularJS HTTP-Service. Passen Sie die Tests an und Mocken Sie die Aufrufe des ähttpService für get() und add(), sodass Sie diese Methoden wie die all()-methode isoliert testen können.</li>
 		</ul>
   </body>
 </html>
