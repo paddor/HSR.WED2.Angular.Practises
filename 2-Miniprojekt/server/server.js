@@ -87,8 +87,8 @@ var event1 = createEvent(
         end: new Date('2011-11-16T03:00:00')
     }
 );
-createGuest(event1, "Michael", "Schoggi-Kuchen", "Bin sicher zu früh" );
-createGuest(event1, "Hans", "Hotdog-Cake", null );
+createGuest(event1, null, "Michael", "Schoggi-Kuchen", "Bin sicher zu früh" );
+createGuest(event1, null, "Hans", "Hotdog-Cake", null );
 
 var event2 = createEvent(
     null,
@@ -108,7 +108,7 @@ var event2 = createEvent(
     }
 );
 
-createGuest(event2, "F. Meier", null, null );
+createGuest(event2, null, "F. Meier", null, null );
 
 
 /**
