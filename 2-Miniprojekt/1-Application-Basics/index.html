@@ -33,15 +33,15 @@
 			<li>Erstellen Sie einen Ordner für die Webapp und legen Sie folgende Struktur an:
 				<pre><!--
 -->App
- |-- configuration
- '-- source
-   +-- classes
-   +-- frameworks
-   | '-- angular
-   |   '- angular.min.js
-   +-- libraries
-   +-- views
-   '-- index.html<!--
+ ├── configuration
+ └─┬ source
+   ├── classes
+   ├─┬ frameworks
+   │ └─┬─ angular
+   │   └─ angular.min.js
+   ├── libraries
+   ├── views
+   └── index.html<!--
 				--></pre>
 			</li>
 			<li>Erstellen Sie index.html, binden Sie angular ein und definieren Sie einen HTML-Container für die Angular-App.</li>
@@ -246,6 +246,13 @@ shim: {
 				<pre class="prettyprint"><code class="language-html"><!--
 -->&lt;div data-ng-app="lafete"&gt;<!--
 				--></code></pre>
+			Jetzt können Sie das Bootstrap-Statement im main entfernen, da Angular aufgrund der Deklaration im Template die App selbst hochfährt:
+			<pre class="prettyprint"><code class="language-javascript"><!--
+-->// main.js
+...
+require(['frameworks/angular', 'app/modules/lafete'], function (Angular, Lafete) {});<!--
+--></code></pre>
+			Den kompletten Require-Block benötigen wir jedoch weiterhin, damit RequireJS unser Angular-Module überhaupt lädt.
 			</li>
 			<li>
 				Als letztes müssen Sie einem Bereich im Template einen Controller zuweisen. Schauen Sie in der verlinkten Angular Dokumentation, wie dies gemacht wird. Verwenden Sie auch hier wieder die HTML5-Standard-konforme Variante.
@@ -276,15 +283,16 @@ shim: {
 			<li>Legen Sie folgende Struktur an:
 				<pre><!--
 -->App
-|-- source
-|-- tests
-| +-- classes
-| | +-- controllers
-| | | '-- eventListControllerTest.js
-| | '-- tests.js
-| '-- index.html
-'-- libraries
-  '-- jasmine<!--
+│ ...
+├── source
+└─┬ tests
+  ├─┬ classes
+  │ ├─┬ controllers
+  │ │ └── eventListControllerTest.js
+  │ └── tests.js
+  ├── index.html
+  └─┬ libraries
+    └── jasmine<!--
   				--></pre>
 			</li>
 			<li>Laden Sie die neuste Standalone Version von Jasmine herunter: <a href="https://github.com/jasmine/jasmine/releases" target="_blank">github.com/jasmine/jasmine/releases</a> und entpacken Sie den Inhalt des Verzeichnisses &quot;/lib/jasmine-*.*.*/&quot; nach &quot;tests/libraries/jasmine&quot;</li>
