@@ -252,7 +252,7 @@ shim: {
 ...
 require(['frameworks/angular', 'app/modules/lafete'], function (Angular, Lafete) {});<!--
 --></code></pre>
-			Den kompletten Require-Block benötigen wir jedoch weiterhin, damit RequireJS unser Angular-Module überhaupt lädt.
+			Den Require-Block benötigen wir jedoch weiterhin, damit RequireJS unser Angular-Module überhaupt lädt.
 			</li>
 			<li>
 				Als letztes müssen Sie einem Bereich im Template einen Controller zuweisen. Schauen Sie in der verlinkten Angular Dokumentation, wie dies gemacht wird. Verwenden Sie auch hier wieder die HTML5-Standard-konforme Variante.
@@ -303,8 +303,24 @@ require(['frameworks/angular', 'app/modules/lafete'], function (Angular, Lafete)
 				--></code></pre>
 			</li>
 			<li>Ergänzen Sie &quot;index.html&quot; und konfigurieren Sie RequireJS analog wie wir es für die App gemacht haben, um app und tests zu laden. Leider ist die neuste Version von Jasmine nicht RequireJS kompatibel, sodass einige Workarounds notwendig sind. &quot;tests.js&quot;:
+				<div class="solution">
+					<pre class="prettyprint"><code class="language-html"><!--
+-->&lt;!doctype html&gt;
+&lt;html lang="de"&gt;
+	&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;title&gt;Lafete test suite&lt;/title&gt;
 
-					<pre class="prettyprint"><code class="language-javascript"><!--
+		&lt;link rel="shortcut icon" type="image/png" href="./libraries/jasmine/jasmine_favicon.png" /&gt;
+		&lt;link rel="stylesheet" type="text/css" href="./libraries/jasmine/jasmine.css" /&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;script src="../source/libraries/require/require.js" data-main="./classes/tests.js"&gt;&lt;/script&gt;
+	&lt;body&gt;
+&lt;/html&gt;<!--
+				--></code></pre>
+				</div>
+				<pre class="prettyprint"><code class="language-javascript"><!--
 -->require.config({
 	baseUrl: './',
 	paths: {
@@ -334,8 +350,7 @@ require(['libraries/jasmine-boot'], function () {
 		//trigger Jasmine
 		window.onload();
 	})
-});
-<!--
+});<!--
 				--></code></pre>
 				Jasmine hängt sich in den globalen Namespace und lässt sich nicht wie Angular über einen Shim Loader einbinden. Grund dafür ist folgender:
 				Jasmin erwartet, das es vor den Tests eingebunden wird. Tests werden über die globale Funktion &quot;describe&quot; deklariert. Sobald Alle Scripts geladen wurden, feuert der Browser den onload event des window. Jasmine hängt sich auf diesen Event und führt die Tests aus.<br />
