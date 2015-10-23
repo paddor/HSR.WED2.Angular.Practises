@@ -87,15 +87,20 @@
 		</ul>
 		<ul>
 			<li>Laden Sie RequireJS herunter (<a href="http://requirejs.org/docs/download.html#requirejs">RequireJS Downloads</a>) und kopieren Sie es ins Verzeichnis &quot;libraries/requirejs&quot; als &quot;require-js.min.js&quot;</li>
-			<li>Als erstes müssen wir nun RequireJS einbinden (zu unterst im Body):
+			<li>Als erstes müssen wir nun RequireJS einbinden (zu unterst im Body) und das <code>data-ng-app</code>-Attribut entfernen:
 				<pre class="prettyprint"><code class="language-html"><!--
-				-->&lt;script src="./libraries/require/require-js.min.js" data-main="./classes/main.js"&gt;&lt;/script&gt;<!--
+-->&lt;div&gt;
+	&lt;h1&gt;Lafete&lt;/h1&gt;
+&lt;/div&gt;
+&lt;script src="./libraries/require/require-js.min.js" data-main="./classes/main.js"&gt;&lt;/script&gt;<!--
 				--></code></pre>
 				Den Script tag, mit dem Sie Angular von Hand eingebunden haben, können Sie nun entfernen.
 			</li>
 			<li>Als nächstes müssen wir RequireJS konfigurieren und eine Angular App starten. Legen Sie dazu &quot;classes/main.js&quot; an:
 				<pre class="prettyprint"><code class="language-javascript"><!--
--->require.config({
+-->// classes/main.js
+
+require.config({
 	// base url relative to the index.html
 	baseUrl: './',
 	paths: {
@@ -109,12 +114,14 @@
 	}
 });
 
-define(['angular'], function (angular) {
-	var app = angular.module("lafete");
-	return angular.bootstrap(app);
+require(['angular'], function (Angular) {
+	var app = Angular.module("lafete");
+	Angular.element(document).ready(function() {
+		Angular.bootstrap(document, [app.name]);
+	});
 });<!--
 				--></code></pre>
-				Durch &quot;define()&quot; definieren wir eine Abhängigkeit zu Angular. Dies verantlasst RequireJS, das Angular-Skript zu laden (durch einfügen eines entsprechenden Script-Tags im Header) und zu warten mit der Ausführung der Funktion, bis Angular komplett geladen wurde. RequireJS evaluiert nun den Inhalt des Angular-Skriptes und übergibt den Code als Parameter &quot;angular&quot; an die Funktion. Nun können wir mit &quot;bootstrap()&quot; eine leere App starten.
+				Durch &quot;require()&quot; definieren wir eine Abhängigkeit zu Angular. Dies verantlasst RequireJS, das Angular-Skript zu laden (durch einfügen eines entsprechenden Script-Tags im Header) und zu warten mit der Ausführung der Funktion, bis Angular komplett geladen wurde. RequireJS evaluiert nun den Inhalt des Angular-Skriptes und übergibt den Code als Parameter &quot;angular&quot; an die Funktion. Nun können wir mit &quot;bootstrap()&quot; eine leere App starten.
 			</li>
 
 			<div class="solution">
@@ -130,7 +137,8 @@ define(['angular'], function (angular) {
 			<li>Erstellen Sie die Datei &quot;lafete.js&quot; in diesem Ordner.</li>
 			<li>Verschieben Sie die Definition unseres Modules &quot;lafete&quot; vom main-Skript in die neu erstellte Datei:
 				<pre class="prettyprint"><code class="language-javascript"><!--
--->// declare dependency to angular (similar to import in java)
+-->// classes/modules/lafete.js
+// declare dependency to angular (similar to import in java)
 define(['angular'], function (Angular) {
 
 	// Create new empty app/module named 'lafete'
@@ -152,9 +160,11 @@ paths: {
 				--></code></pre>
 			Jetzt brauchen Sie nur noch das Module als Abhängigkeit zu definieren um es verwenden zu können (main.js):
 				<pre class="prettyprint"><code class="language-javascript"><!--
--->// We need to
-define(['angular', 'app/modules/lafete'], function (Angular, Lafete) {
-	return Angular.bootstrap(Lafete);
+-->// classes/main.js
+require(['angular', 'app/modules/lafete'], function (Angular, Lafete) {
+	Angular.element(document).ready(function() {
+		Angular.bootstrap(document, [Lafete.name]);
+	});
 });<!--
 				--></code></pre>
 			</li>
@@ -242,17 +252,7 @@ shim: {
 					--></code></pre>
 				</div>
 			</li>
-			<li>Angular modularisiert Applikationen mit Apps. Entsprechend gehören auch Controllers immer zu der App, bei der sie registriert werden. Damit Angular Controllers und App matchen kann, müssen Sie im Template den Namen der App definieren:
-				<pre class="prettyprint"><code class="language-html"><!--
--->&lt;div data-ng-app="lafete"&gt;<!--
-				--></code></pre>
-			Jetzt können Sie das Bootstrap-Statement im main entfernen, da Angular aufgrund der Deklaration im Template die App selbst hochfährt:
-			<pre class="prettyprint"><code class="language-javascript"><!--
--->// main.js
-...
-require(['frameworks/angular', 'app/modules/lafete'], function (Angular, Lafete) {});<!--
---></code></pre>
-			Den Require-Block benötigen wir jedoch weiterhin, damit RequireJS unser Angular-Module überhaupt lädt.
+			<li>Angular modularisiert Applikationen mit Apps. Entsprechend gehören auch Controllers immer zu der App, bei der sie registriert werden.
 			</li>
 			<li>
 				Als letztes müssen Sie einem Bereich im Template einen Controller zuweisen. Schauen Sie in der verlinkten Angular Dokumentation, wie dies gemacht wird. Verwenden Sie auch hier wieder die HTML5-Standard-konforme Variante.
