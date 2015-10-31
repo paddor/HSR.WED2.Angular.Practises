@@ -118,10 +118,9 @@ var app = express();
 app.use(allowCrossDomain);
 app.use(bodyParser.json())
 app.use('/api', express.static(__dirname + '/api'));
-app.use('/', express.static(__dirname + '/webapp/source'));
 // tests, remove this for production
-app.use('/tests', express.static(__dirname + '/webapp/tests'));
-app.use('/source', express.static(__dirname + '/webapp/source'));
+//app.use('/tests', express.static(__dirname + '/webapp/tests'));
+app.use('/', express.static(__dirname + '/../client/source'));
 
 
 /**
@@ -177,7 +176,7 @@ app.post('/api/events/:id', function(request, response) {
 		}
 		if(request.body.times && event.times != request.body.times) {
 			event.times = request.body.times;
-		}		
+		}
 		response.json(event);
 	} else {
 		response.status(404).send('Event (id '+request.params.id+') not found.')
@@ -239,7 +238,7 @@ app.post('/api/events/:eventId/guests/:guestId', function(request, response) {
 			if(request.body.canceled && request.body.canceled != guest.canceled) {
 				guest.canceled = request.body.canceled;
 			}
-			
+
 			response.json(guest);
 		} else {
 			response.status(404).send('Guest (id '+request.params.guestId+') not found.')
