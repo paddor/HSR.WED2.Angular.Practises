@@ -40,7 +40,7 @@ function createEvent(id, name, description, targetGroup, contributionsDescriptio
 
 function findEvent(id) {
     return events.filter(function(event) {
-        return event.id == id
+        return event.id === id;
     })[0];
 }
 
@@ -62,7 +62,7 @@ function createGuest(event, id, name, contribution, comment){
 
 function findGuest(event, guestId) {
 	return event.guests.filter(function(guest) {
-		return guest.id == guestId
+		return guest.id === guestId;
 	})[0];
 }
 
@@ -116,11 +116,11 @@ createGuest(event2, null, "F. Meier", null, null );
  */
 var app = express();
 app.use(allowCrossDomain);
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use('/api', express.static(__dirname + '/api'));
 // tests, remove this for production
 //app.use('/tests', express.static(__dirname + '/webapp/tests'));
-app.use('/', express.static(__dirname + '/../client/source'));
+app.use('/', express.static(__dirname + '/../../../client/source'));
 
 
 /**
@@ -152,7 +152,7 @@ app.get('/api/events/:id', function(request, response) {
     if (event) {
         response.json(event);
     } else {
-        response.status(404).send('Event (id '+request.params.id+') not found.')
+        response.status(404).send('Event (id '+request.params.id+') not found.');
     }
 });
 
@@ -179,7 +179,7 @@ app.post('/api/events/:id', function(request, response) {
 		}
 		response.json(event);
 	} else {
-		response.status(404).send('Event (id '+request.params.id+') not found.')
+		response.status(404).send('Event (id '+request.params.id+') not found.');
 	}
 });
 
@@ -188,7 +188,7 @@ app.get('/api/events/:id/guests', function(request, response) {
     if(event){
         response.json({ guests: event.guests });
     } else{
-        response.status(404).send('Event (id '+request.params.id+') not found.')
+        response.status(404).send('Event (id '+request.params.id+') not found.');
     }
 });
 
@@ -203,7 +203,7 @@ app.post('/api/events/:id/guests', function(request, response) {
             request.body.comment
         ));
     } else{
-        response.status(404).send('Event (id '+request.params.id+') not found.')
+        response.status(404).send('Event (id '+request.params.id+') not found.');
     }
 });
 
@@ -214,10 +214,10 @@ app.get('/api/events/:eventId/guests/:guestId', function(request, response) {
 		if(guest) {
 			response.json(guest);
 		} else {
-			response.status(404).send('Guest (id '+request.params.guestId+') not found.')
+			response.status(404).send('Guest (id '+request.params.guestId+') not found.');
 		}
 	} else{
-		response.status(404).send('Event (id '+request.params.eventId+') not found.')
+		response.status(404).send('Event (id '+request.params.eventId+') not found.');
 	}
 });
 
@@ -241,10 +241,10 @@ app.post('/api/events/:eventId/guests/:guestId', function(request, response) {
 
 			response.json(guest);
 		} else {
-			response.status(404).send('Guest (id '+request.params.guestId+') not found.')
+			response.status(404).send('Guest (id '+request.params.guestId+') not found.');
 		}
 	} else{
-		response.status(404).send('Event (id '+request.params.eventId+') not found.')
+		response.status(404).send('Event (id '+request.params.eventId+') not found.');
 	}
 });
 
