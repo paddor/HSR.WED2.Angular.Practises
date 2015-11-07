@@ -41,7 +41,7 @@ function createEvent(id, name, description, targetGroup, contributionsDescriptio
 
 function findEvent(id) {
     return events.filter(function(event) {
-        return event.id === id;
+        return event.id == id;
     })[0];
 }
 
