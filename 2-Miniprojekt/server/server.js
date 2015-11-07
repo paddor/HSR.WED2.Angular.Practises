@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 
 var allowCrossDomain = function(request, response, next) {
     response.header('Access-Control-Allow-Origin', '*');
@@ -110,13 +111,13 @@ var event2 = createEvent(
 
 createGuest(event2, null, "F. Meier", null, null );
 
-
 /**
  * Basic server
  */
 var app = express();
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
+app.use(morgan('combined'));
 app.use('/api', express.static(__dirname + '/api'));
 // tests, remove this for production
 //app.use('/tests', express.static(__dirname + '/webapp/tests'));
@@ -127,7 +128,7 @@ app.use('/', express.static(__dirname + '/../../../client/source'));
  * API routes
  */
 app.get('/api/events', function(request, response) {
-    response.json({ events: events });
+    response.json(events);
 });
 
 app.post('/api/events', function(request, response) {
@@ -156,7 +157,7 @@ app.get('/api/events/:id', function(request, response) {
     }
 });
 
-app.put('/api/events/:id', function(request, response) {
+app.post('/api/events/:id', function(request, response) {
 	var event = findEvent(request.params.id);
 	if (event) {
 		if(request.body.name && request.body.name != event.name) {
@@ -221,7 +222,7 @@ app.get('/api/events/:eventId/guests/:guestId', function(request, response) {
 	}
 });
 
-app.put('/api/events/:eventId/guests/:guestId', function(request, response) {
+app.post('/api/events/:eventId/guests/:guestId', function(request, response) {
 	var event = findEvent(request.params.eventId);
 	if(event){
 		var guest = findGuest(event, request.params.guestId);
