@@ -156,7 +156,7 @@ app.get('/api/events/:id', function(request, response) {
     }
 });
 
-app.post('/api/events/:id', function(request, response) {
+app.put('/api/events/:id', function(request, response) {
 	var event = findEvent(request.params.id);
 	if (event) {
 		if(request.body.name && request.body.name != event.name) {
@@ -221,7 +221,7 @@ app.get('/api/events/:eventId/guests/:guestId', function(request, response) {
 	}
 });
 
-app.post('/api/events/:eventId/guests/:guestId', function(request, response) {
+app.put('/api/events/:eventId/guests/:guestId', function(request, response) {
 	var event = findEvent(request.params.eventId);
 	if(event){
 		var guest = findGuest(event, request.params.guestId);
