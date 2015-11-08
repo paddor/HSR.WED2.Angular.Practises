@@ -28,6 +28,7 @@ function createEvent(id, name, description, targetGroup, contributionsDescriptio
             description : description,
             targetGroup: targetGroup,
             contributionsDescription: contributionsDescription,
+            maximalAmoutOfGuests: 2,
             location:location,
             times : times,
             guests:[]
@@ -63,7 +64,7 @@ function createGuest(event, id, name, contribution, comment){
 
 function findGuest(event, guestId) {
 	return event.guests.filter(function(guest) {
-		return guest.id === guestId;
+		return guest.id == guestId;
 	})[0];
 }
 
@@ -187,7 +188,7 @@ app.post('/api/events/:id', function(request, response) {
 app.get('/api/events/:id/guests', function(request, response) {
     var event = findEvent(request.params.id);
     if(event){
-        response.json({ guests: event.guests });
+        response.json(event.guests);
     } else{
         response.status(404).send('Event (id '+request.params.id+') not found.');
     }
