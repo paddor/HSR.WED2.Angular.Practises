@@ -243,7 +243,7 @@ app.post('/api/events/:eventId/guests/:guestId', function(request, response) {
 			if(request.body.comment && request.body.comment != guest.comment) {
 				guest.comment = request.body.comment;
 			}
-			if(request.body.canceled && request.body.canceled != guest.canceled) {
+			if(request.body.canceled != guest.canceled) {
 				guest.canceled = request.body.canceled;
 			}
 
